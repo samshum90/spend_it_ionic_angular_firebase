@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Create</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="createSpendForm" (submit)="createSpend()">
+    <ion-item>
+      <ion-label stacked>Date Created</ion-label>
+      <ion-input formControlName="dateCreated" type="date" placeholder="today's date">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Spend Name</ion-label>
+      <ion-input formControlName="spendName" type="text" placeholder="Give a name to your expenditure">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Spend Description</ion-label>
+      <ion-input formControlName="spendDescription" type="text" placeholder="Give more details about this description">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Category</ion-label>
+      <ion-input formControlName="category" type="text" placeholder="Add this expenditure to a category">
+      </ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!createSpendForm.valid">
+      Add Spend
+    </ion-button>
+  </form>
+</ion-content>
