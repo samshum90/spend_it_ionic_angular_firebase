@@ -1,20 +1,20 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Spend It.</ion-title>
+    <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/create">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content class="padding">
+  <ion-item *ngFor="let spend of spendList | async" routerLink="/detail/{{spend.id}}">
+    <ion-label>
+      <h2>{{ spend.spendName}}</h2>
+      <p>Amount: £{{ spend.amount }}</p>
+    </ion-label>
+  </ion-item>
 </ion-content>

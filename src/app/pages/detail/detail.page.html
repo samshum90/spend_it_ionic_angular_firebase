@@ -1,9 +1,26 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>detail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ spend?.spendName }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <h3>Expenditure</h3>
+  <p>The expenditure was created at {{ spend?.dateCreated }}.</p>
 
+  <h3>Category</h3>
+  <p>{{ spend?.category }}</p>
+
+  <h3>Amount</h3>
+  <p>£{{ spend?.amount }}</p>
+
+  <h3>Description</h3>
+  <p>{{ spend?.spendDescription }}</p>
+
+
+  <ion-button expand="block" routerLink="/edit"> EDIT </ion-button>
+  <ion-button expand="block" (click)="deleteSpend(spend.id, spend.spendName)"> DELETE </ion-button>
 </ion-content>

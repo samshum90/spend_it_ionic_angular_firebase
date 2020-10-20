@@ -21,8 +21,9 @@ export class CreatePage implements OnInit {
     this.createSpendForm = formBuilder.group({
       dateCreated: ['', Validators.required],
       spendName: ['', Validators.required],
-      spendDescription: ['', Validators.required],
+      spendDescription: [''],
       category: ['', Validators.required],
+      amount: ['', Validators.required],
     });
   }
 
@@ -33,9 +34,15 @@ export class CreatePage implements OnInit {
     const spendName = this.createSpendForm.value.spendName;
     const spendDescription = this.createSpendForm.value.spendDescription;
     const category = this.createSpendForm.value.category;
+    const amount = this.createSpendForm.value.amount;
 
     this.firestoreService
-      .createSpend(dateCreated, spendName, spendDescription, category)
+      .createSpend(
+        dateCreated,
+        spendName,
+        spendDescription,
+        category,
+        amount)
       .then(
         () => {
           loading.dismiss().then(() => {
