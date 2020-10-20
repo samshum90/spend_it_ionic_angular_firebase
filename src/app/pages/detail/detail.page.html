@@ -21,6 +21,6 @@
   <p>{{ spend?.spendDescription }}</p>
 
 
-  <ion-button expand="block" routerLink="/edit"> EDIT </ion-button>
+  <ion-button expand="block" (click)="updateSpend(spend.id, spend)"> EDIT </ion-button>
   <ion-button expand="block" (click)="deleteSpend(spend.id, spend.spendName)"> DELETE </ion-button>
 </ion-content>

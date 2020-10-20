@@ -43,14 +43,21 @@ export class FirestoreService {
     return this.firestore.doc(`spendList/${spendId}`).delete();
   }
 
-  updateSpend(spendId: string, spend: Spend) {
-    return this.firestore.doc(`spendList/${spendId}`).update({
-      id: spend.id,
-      dateCreated: spend.dateCreated,
-      spendName: spend.spendName,
-      spendDescription: spend.spendDescription,
-      category: spend.category,
-      amount: spend.amount,
+  updateSpend(
+    id: string,
+    dateCreated: string,
+    spendName: string,
+    spendDescription: string,
+    category: string,
+    amount: number,
+  ) {
+    return this.firestore.doc(`spendList/${id}`).update({
+      id: id,
+      dateCreated: dateCreated,
+      spendName: spendName,
+      spendDescription: spendDescription,
+      category: category,
+      amount: amount,
     });
   }
 }

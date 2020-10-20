@@ -8,6 +8,9 @@ import { DetailPageRoutingModule } from './detail-routing.module';
 
 import { DetailPage } from './detail.page';
 
+import { UpdateSpendComponent } from '../../components/update-spend/update-spend.component';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +18,7 @@ import { DetailPage } from './detail.page';
     IonicModule,
     DetailPageRoutingModule
   ],
-  declarations: [DetailPage]
+  entryComponents: [UpdateSpendComponent],
+  declarations: [DetailPage, UpdateSpendComponent]
 })
-export class DetailPageModule {}
+export class DetailPageModule { }

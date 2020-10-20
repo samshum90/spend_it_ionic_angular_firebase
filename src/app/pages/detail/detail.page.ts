@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Spend } from '../../shared/models/spend.interface';
 import { FirestoreService } from '../../services/data/firestore.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+
+import { UpdateSpendComponent } from '../../components/update-spend/update-spend.component'
 
 @Component({
   selector: 'app-detail',
@@ -16,7 +18,8 @@ export class DetailPage implements OnInit {
     private firestoreService: FirestoreService,
     private route: ActivatedRoute,
     private alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -49,6 +52,17 @@ export class DetailPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async updateSpend(spendId: string, spend: Spend) {
+    const modal = await this.modalController.create({
+      component: UpdateSpendComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        "spend": spend
+      }
+    });
+    return await modal.present();
   }
 
 }
