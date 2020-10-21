@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { EditPageRoutingModule } from './edit-routing.module';
+import { PasswordForgetPageRoutingModule } from './password-forget-routing.module';
 
-import { EditPage } from './edit.page';
+import { PasswordForgetPage } from './password-forget.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EditPageRoutingModule
+    PasswordForgetPageRoutingModule
   ],
-  declarations: [EditPage]
+  declarations: [PasswordForgetPage]
 })
-export class EditPageModule {}
+export class PasswordForgetPageModule {}

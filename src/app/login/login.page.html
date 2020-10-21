@@ -18,7 +18,12 @@
       <ion-label position="floating">Password</ion-label>
       <ion-input type="password" #password required></ion-input>
     </ion-item>
-
+    <ion-row>
+      <a routerLink="/registration">Don't have an account?</a>
+    </ion-row>
+    <ion-row>
+      <a routerLink="/password-forget">Forgotten Password?</a>
+    </ion-row>
     <ion-row>
       <ion-col>
         <ion-button type="submit" (click)="logIn(email, password)" expand="block">Login</ion-button>

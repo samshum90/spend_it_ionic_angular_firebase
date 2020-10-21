@@ -1,32 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Spend } from '../../shared/models/spend.interface';
-import { FirestoreService } from '../../services/data/firestore.service';
-import { AlertController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { FirestoreService } from '../../services/data/firestore.service';
+import { Spend } from '../../shared/models/spend.interface';
+import { AuthenticationService } from "../../shared/authentication-service";
 
+import { AlertController, ModalController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateSpendComponent } from '../../components/update-spend/update-spend.component'
 
 @Component({
-  selector: 'app-detail',
-  templateUrl: './detail.page.html',
-  styleUrls: ['./detail.page.scss'],
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
 })
-export class DetailPage implements OnInit {
-  public spend: Spend;
+export class HomePage {
+  public spendList: Observable<Spend[]>;
+  public authService: AuthenticationService
   constructor(
     private firestoreService: FirestoreService,
-    private route: ActivatedRoute,
     private alertController: AlertController,
     private router: Router,
     private modalController: ModalController,
   ) { }
 
   ngOnInit() {
-    const spendId: string = this.route.snapshot.paramMap.get('id');
-    this.firestoreService.getSpendDetail(spendId).subscribe(spend => {
-      this.spend = spend;
-    });
+    this.spendList = this.firestoreService.getSpendList();
   }
 
   async deleteSpend(spendId: string, spendName: string): Promise<void> {
@@ -54,7 +52,8 @@ export class DetailPage implements OnInit {
     await alert.present();
   }
 
-  async updateSpend(spend: Spend) {
+  async updateSpend(spendId: string, spend: Spend) {
+    console.log(spend)
     const modal = await this.modalController.create({
       component: UpdateSpendComponent,
       cssClass: 'my-custom-class',

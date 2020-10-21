@@ -11,10 +11,18 @@
 </ion-header>
 
 <ion-content class="padding">
-  <ion-item *ngFor="let spend of spendList | async" routerLink="/detail/{{spend.id}}">
-    <ion-label>
+  <ion-item *ngFor="let spend of spendList | async">
+    <ion-label routerLink="/detail/{{spend.id}}">
       <h2>{{ spend.spendName}}</h2>
       <p>Amount: £{{ spend.amount }}</p>
     </ion-label>
+    <ion-buttons slot="end">
+      <ion-button (click)="updateSpend(spend)">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteSpend(spend.id, spend.spendName)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-item>
 </ion-content>

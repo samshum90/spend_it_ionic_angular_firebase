@@ -8,12 +8,10 @@ import { AuthenticationService } from "../shared/authentication-service";
 })
 
 export class DashboardPage implements OnInit {
-
   constructor(
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
   ) { }
 
   ngOnInit() {
   }
-
 }

@@ -28,7 +28,17 @@ export class UpdateSpendComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() { this.updateValues() }
+
+  updateValues() {
+    this.editSpendForm.setValue({
+      dateCreated: this.spend.dateCreated,
+      spendName: this.spend.spendName,
+      spendDescription: this.spend.spendDescription,
+      category: this.spend.category,
+      amount: this.spend.amount,
+    })
+  }
 
   async updateSpend() {
     const loading = await this.loadingCtrl.create();

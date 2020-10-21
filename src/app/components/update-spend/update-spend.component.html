@@ -1,10 +1,49 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Dashboard</ion-title>
-
+    <ion-title>UPDATE RECORD</ion-title>
+    <!-- <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button> -->
+    <ion-buttons slot="end">
+      <ion-button (click)="CloseModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+<ion-content padding>
+  <form [formGroup]="editSpendForm" (submit)="updateSpend()">
+    <ion-item>
+      <ion-label stacked>Date Created</ion-label>
+      <ion-input formControlName="dateCreated" type="date" placeholder="today's date">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Spend Name</ion-label>
+      <ion-input formControlName="spendName" type="text" placeholder="Give a name to your expenditure">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Category</ion-label>
+      <ion-input formControlName="category" type="text" placeholder="what category is this expenditure in?">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Amount</ion-label>
+      <ion-input formControlName="amount" type="number" placeholder="what amount is this expenditure?">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Spend Description</ion-label>
+      <ion-input formControlName="spendDescription" type="text" placeholder="Give more details about this description">
+      </ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!editSpendForm.valid">
+      Submit
+    </ion-button>
+  </form>
 </ion-content>
