@@ -15,12 +15,12 @@ import { UpdateSpendComponent } from '../../components/update-spend/update-spend
 })
 export class HomePage {
   public spendList: Observable<Spend[]>;
-  public authService: AuthenticationService
   constructor(
     private firestoreService: FirestoreService,
     private alertController: AlertController,
     private router: Router,
     private modalController: ModalController,
+    public authService: AuthenticationService
   ) { }
 
   ngOnInit() {
@@ -52,8 +52,7 @@ export class HomePage {
     await alert.present();
   }
 
-  async updateSpend(spendId: string, spend: Spend) {
-    console.log(spend)
+  async updateSpend(spend: Spend) {
     const modal = await this.modalController.create({
       component: UpdateSpendComponent,
       cssClass: 'my-custom-class',

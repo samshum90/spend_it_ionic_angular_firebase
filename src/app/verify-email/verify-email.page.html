@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Verify email</ion-title>
+    <ion-title>Verify Email</ion-title>
+    <ion-button slot="end" size="small" routerLink="/login">Log In</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -14,6 +12,9 @@
       <p>
         Please check your email and click on the link to verfiy your email address.
       </p>
+
+    </ion-row>
+    <ion-row>
       <ion-button type="submit" (click)="authService.SendVerificationMail()" expand="block">
         Resend Verification Email
       </ion-button>

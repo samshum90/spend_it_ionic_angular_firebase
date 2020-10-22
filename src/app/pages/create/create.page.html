@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Add an Expenditure</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -19,8 +22,9 @@
     </ion-item>
     <ion-item>
       <ion-label stacked>Category</ion-label>
-      <ion-input formControlName="category" type="text" placeholder="what category is this expenditure in?">
-      </ion-input>
+      <ion-select>
+        <ion-select-option *ngFor="let category of categoriesList">{{category}}</ion-select-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>

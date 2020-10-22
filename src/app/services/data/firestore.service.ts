@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import 'firebase/firestore';
 
 import { Observable } from 'rxjs';
 import { Spend } from '../../shared/models/spend.interface';
@@ -12,6 +11,27 @@ export class FirestoreService {
 
   constructor(public firestore: AngularFirestore) { }
 
+  createCategories(userId: string): Promise<void> {
+    // const id = this.firestore.createId();
+    const categories = ["Food", "Take Away", "Personal", "Entertainment", "Service", "Other"]
+    return this.firestore.collection('user').doc(`${userId}`).set({
+      // id,
+      categories
+    });
+  }
+
+  getCategoriesList() {
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore.collection(`user`).doc(`${userId.uid}`).valueChanges()
+  }
+
+  getSpendList(): Observable<Spend[]> {
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection<Spend>(`spend`).valueChanges();
+  }
+
   createSpend(
     dateCreated: string,
     spendName: string,
@@ -20,27 +40,31 @@ export class FirestoreService {
     amount: string,
   ): Promise<void> {
     const id = this.firestore.createId();
-
-    return this.firestore.doc(`spendList/${id}`).set({
-      id,
-      dateCreated,
-      spendName,
-      spendDescription,
-      category,
-      amount,
-    });
-  }
-
-  getSpendList(): Observable<Spend[]> {
-    return this.firestore.collection<Spend>(`spendList`).valueChanges();
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`spend`).doc(`${id}`).set({
+        id,
+        dateCreated,
+        spendName,
+        spendDescription,
+        category,
+        amount,
+      });
   }
 
   getSpendDetail(spendId: string): Observable<Spend> {
-    return this.firestore.collection('spendList').doc<Spend>(spendId).valueChanges();
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`spend`).doc<Spend>(spendId).valueChanges();
   }
 
   deleteSpend(spendId: string): Promise<void> {
-    return this.firestore.doc(`spendList/${spendId}`).delete();
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`spend`).doc<Spend>(spendId).delete();
   }
 
   updateSpend(
@@ -51,13 +75,17 @@ export class FirestoreService {
     category: string,
     amount: number,
   ) {
-    return this.firestore.doc(`spendList/${id}`).update({
-      id: id,
-      dateCreated: dateCreated,
-      spendName: spendName,
-      spendDescription: spendDescription,
-      category: category,
-      amount: amount,
-    });
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`spend`).doc(id)
+      .update({
+        id: id,
+        dateCreated: dateCreated,
+        spendName: spendName,
+        spendDescription: spendDescription,
+        category: category,
+        amount: amount,
+      });
   }
 }

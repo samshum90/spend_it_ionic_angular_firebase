@@ -31,7 +31,7 @@ export class AuthenticationService {
     }
 
     // Login in with email/password
-    SignIn(email, password) {
+    SignIn(email: string, password: string): Promise<firebase.auth.UserCredential> {
         return this.ngFireAuth.signInWithEmailAndPassword(email, password)
     }
 
@@ -80,7 +80,7 @@ export class AuthenticationService {
         return this.ngFireAuth.signInWithPopup(provider)
             .then((result) => {
                 this.ngZone.run(() => {
-                    this.router.navigate(['dashboard']);
+                    this.router.navigate(['']);
                 })
                 this.SetUserData(result.user);
             }).catch((error) => {
