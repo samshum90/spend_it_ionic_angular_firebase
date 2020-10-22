@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { FirestoreService } from '../../services/data/firestore.service';
 import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map'
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create',
@@ -22,16 +22,16 @@ export class CreatePage implements OnInit {
     private router: Router
   ) {
     // this.categoriesList = ["Food", "Take Away", "Personal", "Entertainment", "Service", "Other"]
-    this.firestoreService.getCategoriesList()
-      .map(res => {
+    this.firestoreService.getCategoriesList().pipe(
+      map(res => {
         // do some calculations here if you want to
         return res.map(eachlLabel => eachlLabel + " Hello World")
       })
-      .subscribe(res => {
+      subscribe(res => {
         console.log(res)//should give you the array of percentage. 
         this.categoriesList = res;
         console.log(this.categoriesList)
-      })
+      }))
 
     //   .subscribe(res => {
     //   console.log(res)
