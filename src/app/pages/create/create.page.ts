@@ -23,23 +23,10 @@ export class CreatePage implements OnInit {
   ) {
     // this.categoriesList = ["Food", "Take Away", "Personal", "Entertainment", "Service", "Other"]
     this.firestoreService.getCategoriesList().pipe(
-      map(res => {
-        // do some calculations here if you want to
-        return res.map(eachlLabel => eachlLabel + " Hello World")
-      })
-      subscribe(res => {
-        console.log(res)//should give you the array of percentage. 
-        this.categoriesList = res;
-        console.log(this.categoriesList)
-      }))
-
-    //   .subscribe(res => {
-    //   console.log(res)
-    //   res = res.map(x => )
-    //   this.categoriesList = res
-    //   console.log(this.categoriesList)
-    // })
-    // .subscribe(categories => this.categoriesList = categories)
+      map(res => res.categories)
+    ).subscribe(res => {
+      this.categoriesList = res;
+    })
     this.createSpendForm = formBuilder.group({
       dateCreated: ['', Validators.required],
       spendName: ['', Validators.required],
@@ -52,10 +39,6 @@ export class CreatePage implements OnInit {
   ngOnInit() {
     this.updateDate()
     this.firestoreService.getCategoriesList()
-  }
-
-  getCategoryList() {
-    return this.firestoreService.getCategoriesList()
   }
 
   async createSpend() {
@@ -97,7 +80,7 @@ export class CreatePage implements OnInit {
       spendName: '',
       spendDescription: '',
       category: '',
-      amount: '',
+      amount: '.00',
     })
   }
 }

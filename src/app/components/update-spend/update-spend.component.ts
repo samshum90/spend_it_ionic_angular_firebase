@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FirestoreService } from '../../services/data/firestore.service';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 import { Spend } from '../../shared/models/spend.interface'
 
@@ -13,12 +14,18 @@ import { Spend } from '../../shared/models/spend.interface'
 export class UpdateSpendComponent implements OnInit {
   @Input() spend: Spend;
   public editSpendForm: FormGroup;
+  public categoriesList: any[];
   constructor(
     public loadingCtrl: LoadingController,
     private firestoreService: FirestoreService,
     private modalCtrl: ModalController,
     formBuilder: FormBuilder,
   ) {
+    this.firestoreService.getCategoriesList().pipe(
+      map(res => res.categories)
+    ).subscribe(res => {
+      this.categoriesList = res;
+    })
     this.editSpendForm = formBuilder.group({
       dateCreated: ['', Validators.required],
       spendName: ['', Validators.required],

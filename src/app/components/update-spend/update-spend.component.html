@@ -15,31 +15,37 @@
   <form [formGroup]="editSpendForm" (submit)="updateSpend()">
     <ion-item>
       <ion-label stacked>Date Created</ion-label>
-      <ion-input formControlName="dateCreated" type="date" placeholder="today's date">
+      <ion-input slot="end" formControlName="dateCreated" type="date">
       </ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Spend Name</ion-label>
-      <ion-input formControlName="spendName" type="text" placeholder="Give a name to your expenditure">
+      <ion-input autocomplete autocapitalize formControlName="spendName" type="text"
+        placeholder="Give a name to your expenditure">
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-label stacked>Category</ion-label>
-      <ion-input formControlName="category" type="text" placeholder="what category is this expenditure in?">
-      </ion-input>
+      <ion-select formControlName="category" placeholder="Select a category">
+        <ion-select-option *ngFor="let category of categoriesList">
+          {{category}}
+        </ion-select-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Amount</ion-label>
-      <ion-input formControlName="amount" type="number" placeholder="what amount is this expenditure?">
+      <ion-label stacked>Amount £</ion-label>
+      <ion-input slot="end" formControlName="amount" type="number" placeholder="Amount of this expenditure?"
+        inputmode="decimal">
       </ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Spend Description</ion-label>
-      <ion-input formControlName="spendDescription" type="text" placeholder="Give more details about this description">
-      </ion-input>
+      <ion-textarea spellcheck autoGrow formControlName="spendDescription" type="text"
+        placeholder="Give more details about this description">
+      </ion-textarea>
     </ion-item>
 
     <ion-button expand="block" type="submit" [disabled]="!editSpendForm.valid">
