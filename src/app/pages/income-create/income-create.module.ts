@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CreatePageRoutingModule } from './create-routing.module';
+import { IncomeCreatePageRoutingModule } from './income-create-routing.module';
 
-import { CreatePage } from './create.page';
+import { IncomeCreatePage } from './income-create.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { CreatePage } from './create.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    CreatePageRoutingModule
+    IncomeCreatePageRoutingModule
   ],
-  declarations: [CreatePage]
+  declarations: [IncomeCreatePage]
 })
-export class CreatePageModule { }
+export class IncomeCreatePageModule { }

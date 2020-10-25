@@ -6,7 +6,7 @@ import { AuthenticationService } from "../../shared/authentication-service";
 
 import { AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UpdateSpendComponent } from '../../components/update-spend/update-spend.component'
+import { SpendUpdateComponent } from '../../components/spend-update/spend-update.component';
 
 @Component({
   selector: 'app-home',
@@ -54,7 +54,7 @@ export class HomePage {
 
   async updateSpend(spend: Spend) {
     const modal = await this.modalController.create({
-      component: UpdateSpendComponent,
+      component: SpendUpdateComponent,
       cssClass: 'my-custom-class',
       componentProps: {
         "spend": spend

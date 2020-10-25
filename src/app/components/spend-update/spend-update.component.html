@@ -1,14 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+    <ion-title>UPDATE RECORD</ion-title>
+    <!-- <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button> -->
+    <ion-buttons slot="end">
+      <ion-button (click)="CloseModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title>Add an Expenditure</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content padding>
-  <form [formGroup]="createSpendForm" (submit)="createSpend()">
+  <form [formGroup]="editSpendForm" (submit)="updateSpend()">
     <ion-item>
       <ion-label stacked>Date Created</ion-label>
       <ion-input slot="end" formControlName="dateCreated" type="date">
@@ -24,7 +28,9 @@
     <ion-item>
       <ion-label stacked>Category</ion-label>
       <ion-select formControlName="category" placeholder="Select a category">
-        <ion-select-option *ngFor="let category of categoriesList">{{category}}</ion-select-option>
+        <ion-select-option *ngFor="let category of categoriesList">
+          {{category}}
+        </ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -42,8 +48,8 @@
       </ion-textarea>
     </ion-item>
 
-    <ion-button expand="block" type="submit" [disabled]="!createSpendForm.valid">
-      Add Spend
+    <ion-button expand="block" type="submit" [disabled]="!editSpendForm.valid">
+      Submit
     </ion-button>
   </form>
 </ion-content>

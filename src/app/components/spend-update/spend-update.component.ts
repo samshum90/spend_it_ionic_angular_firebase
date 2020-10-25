@@ -7,11 +7,11 @@ import { map } from 'rxjs/operators';
 import { Spend } from '../../shared/models/spend.interface'
 
 @Component({
-  selector: 'app-update-spend',
-  templateUrl: './update-spend.component.html',
-  styleUrls: ['./update-spend.component.scss'],
+  selector: 'app-spend-update',
+  templateUrl: './spend-update.component.html',
+  styleUrls: ['./spend-update.component.scss'],
 })
-export class UpdateSpendComponent implements OnInit {
+export class SpendUpdateComponent implements OnInit {
   @Input() spend: Spend;
   public editSpendForm: FormGroup;
   public categoriesList: any[];
@@ -44,7 +44,7 @@ export class UpdateSpendComponent implements OnInit {
       dateCreated: this.spend.dateCreated,
       spendName: this.spend.spendName,
       spendDescription: this.spend.spendDescription,
-      category: `${this.spend.category}`,
+      category: this.spend.category,
       amount: this.spend.amount,
       type: this.spend.type,
     })
@@ -58,7 +58,6 @@ export class UpdateSpendComponent implements OnInit {
     const category = this.editSpendForm.value.category;
     const amount = this.editSpendForm.value.amount;
     const type = this.editSpendForm.value.type;
-
     this.firestoreService.updateSpend(
       this.spend.id,
       dateCreated,
@@ -66,7 +65,7 @@ export class UpdateSpendComponent implements OnInit {
       spendDescription,
       category,
       amount,
-      type,
+      type
     ).then(() => {
       loading.dismiss().then(() => {
         this.modalCtrl.dismiss();

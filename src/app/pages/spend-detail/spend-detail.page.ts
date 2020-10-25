@@ -5,14 +5,15 @@ import { FirestoreService } from '../../services/data/firestore.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
-import { UpdateSpendComponent } from '../../components/update-spend/update-spend.component'
+import { SpendUpdateComponent } from '../../components/spend-update/spend-update.component'
+
 
 @Component({
-  selector: 'app-detail',
-  templateUrl: './detail.page.html',
-  styleUrls: ['./detail.page.scss'],
+  selector: 'app-spend-detail',
+  templateUrl: './spend-detail.page.html',
+  styleUrls: ['./spend-detail.page.scss'],
 })
-export class DetailPage implements OnInit {
+export class SpendDetailPage implements OnInit {
   public spend: Spend;
   constructor(
     private firestoreService: FirestoreService,
@@ -56,7 +57,7 @@ export class DetailPage implements OnInit {
 
   async updateSpend(spend: Spend) {
     const modal = await this.modalController.create({
-      component: UpdateSpendComponent,
+      component: SpendUpdateComponent,
       cssClass: 'my-custom-class',
       componentProps: {
         "spend": spend

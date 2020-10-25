@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.page.html',
-  styleUrls: ['./create.page.scss'],
+  selector: 'app-spend-create',
+  templateUrl: './spend-create.page.html',
+  styleUrls: ['./spend-create.page.scss'],
 })
-export class CreatePage implements OnInit {
+export class SpendCreatePage implements OnInit {
   public createSpendForm: FormGroup;
   public categoriesList: any[];
   constructor(
@@ -23,7 +23,7 @@ export class CreatePage implements OnInit {
   ) {
     // this.categoriesList = ["Food", "Take Away", "Personal", "Entertainment", "Service", "Other"]
     this.firestoreService.getCategoriesList().pipe(
-      map(res => res.categories)
+      map((res: any) => res.categories)
     ).subscribe(res => {
       this.categoriesList = res;
     })
@@ -33,6 +33,8 @@ export class CreatePage implements OnInit {
       spendDescription: [''],
       category: ['', Validators.required],
       amount: ['', Validators.required],
+      type: ['', Validators.required],
+
     });
   }
 
@@ -49,6 +51,7 @@ export class CreatePage implements OnInit {
     const spendDescription = this.createSpendForm.value.spendDescription;
     const category = this.createSpendForm.value.category;
     const amount = this.createSpendForm.value.amount;
+    const type = this.createSpendForm.value.type;
 
     this.firestoreService
       .createSpend(
@@ -56,7 +59,8 @@ export class CreatePage implements OnInit {
         spendName,
         spendDescription,
         category,
-        amount)
+        amount,
+        type)
       .then(
         () => {
           loading.dismiss().then(() => {
@@ -81,6 +85,8 @@ export class CreatePage implements OnInit {
       spendDescription: '',
       category: '',
       amount: '.00',
+      type: 'Expenditure'
     })
   }
+
 }

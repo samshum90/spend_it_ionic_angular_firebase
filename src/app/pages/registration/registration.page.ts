@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FirestoreService } from '../services/data/firestore.service';
+import { FirestoreService } from '../../services/data/firestore.service';
 import { Router } from "@angular/router";
-import { AuthenticationService } from "../shared/authentication-service";
+import { AuthenticationService } from "../../shared/authentication-service";
 
 @Component({
   selector: 'app-registration',

@@ -17,11 +17,12 @@ const routes: Routes = [
   },
   {
     path: 'registration',
-    loadChildren: () => import('./registration/registration.module').then(m => m.RegistrationPageModule)
+    loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationPageModule),
+    canActivate: [SecureInnerPagesGuard]
   },
   {
     path: 'verify-email',
-    loadChildren: () => import('./verify-email/verify-email.module').then(m => m.VerifyEmailPageModule)
+    loadChildren: () => import('./pages/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule)
   },
   {
     path: 'password-forget',
@@ -29,23 +30,32 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule),
     canActivate: [SecureInnerPagesGuard]
-
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule),
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule),
     canActivate: [AuthGuard]
   },
   {
-    path: 'create',
-    loadChildren: () => import('./pages/create/create.module').then(m => m.CreatePageModule),
+    path: 'spend-create',
+    loadChildren: () => import('./pages/spend-create/spend-create.module').then(m => m.SpendCreatePageModule),
     canActivate: [AuthGuard]
   },
   {
-    path: 'detail/:id',
-    loadChildren: './pages/detail/detail.module#DetailPageModule',
+    path: 'spend-detail/:id',
+    loadChildren: () => import('./pages/spend-detail/spend-detail.module').then(m => m.SpendDetailPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'income-detail/:id',
+    loadChildren: () => import('./pages/income-detail/income-detail.module').then(m => m.IncomeDetailPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'income-create',
+    loadChildren: () => import('./pages/income-create/income-create.module').then(m => m.IncomeCreatePageModule),
     canActivate: [AuthGuard]
   },
 ];

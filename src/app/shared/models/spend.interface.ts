@@ -5,4 +5,5 @@ export interface Spend {
     spendDescription: string;
     category: string;
     amount: string;
+    type: string;
 }

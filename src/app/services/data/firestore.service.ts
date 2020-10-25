@@ -38,6 +38,7 @@ export class FirestoreService {
     spendDescription: string,
     category: string,
     amount: string,
+    type: string
   ): Promise<void> {
     const id = this.firestore.createId();
     const userId = JSON.parse(localStorage.getItem('user'))
@@ -50,6 +51,7 @@ export class FirestoreService {
         spendDescription,
         category,
         amount,
+        type,
       });
   }
 
@@ -74,6 +76,7 @@ export class FirestoreService {
     spendDescription: string,
     category: string,
     amount: number,
+    type: string,
   ) {
     const userId = JSON.parse(localStorage.getItem('user'))
     return this.firestore
@@ -86,6 +89,7 @@ export class FirestoreService {
         spendDescription: spendDescription,
         category: category,
         amount: amount,
+        type: type,
       });
   }
 }

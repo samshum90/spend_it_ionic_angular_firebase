@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { DetailPage } from './detail.page';
+import { SpendUpdateComponent } from './spend-update.component';
 
-describe('DetailPage', () => {
-  let component: DetailPage;
-  let fixture: ComponentFixture<DetailPage>;
+describe('SpendUpdateComponent', () => {
+  let component: SpendUpdateComponent;
+  let fixture: ComponentFixture<SpendUpdateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DetailPage ],
+      declarations: [ SpendUpdateComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DetailPage);
+    fixture = TestBed.createComponent(SpendUpdateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
