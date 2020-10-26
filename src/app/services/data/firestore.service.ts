@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Observable } from 'rxjs';
 import { Spend } from '../../shared/models/spend.interface';
+import { Income } from '../../shared/models/income.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +89,70 @@ export class FirestoreService {
         spendName: spendName,
         spendDescription: spendDescription,
         category: category,
+        amount: amount,
+        type: type,
+      });
+  }
+
+  getIncomeList(): Observable<Income[]> {
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection<Income>(`income`).valueChanges();
+  }
+
+  createIncome(
+    dateCreated: string,
+    name: string,
+    description: string,
+    amount: string,
+    type: string
+  ): Promise<void> {
+    const id = this.firestore.createId();
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`income`).doc(`${id}`).set({
+        id,
+        dateCreated,
+        name,
+        description,
+        amount,
+        type,
+      });
+  }
+
+  getIncomeDetail(incomeId: string): Observable<Income> {
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`income`).doc<Income>(incomeId).valueChanges();
+  }
+
+  deleteIncome(incomeId: string): Promise<void> {
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`income`).doc<Income>(incomeId).delete();
+  }
+
+  updateIncome(
+    id: string,
+    dateCreated: string,
+    name: string,
+    description: string,
+    amount: number,
+    type: string,
+  ) {
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`income`).doc(id)
+      .update({
+        id: id,
+        dateCreated: dateCreated,
+        name: name,
+        description: description,
         amount: amount,
         type: type,
       });

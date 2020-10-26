@@ -1,9 +1,28 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>income</ion-title>
+    <ion-title>Income</ion-title>
+    <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/income-create">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="padding">
+  <ion-item *ngFor="let income of incomeList | async">
+    <ion-label routerLink="/income-detail/{{income.id}}">
+      <h2>{{ income.name}}</h2>
+      <p>Amount: £{{ income.amount }}</p>
+    </ion-label>
+    <ion-buttons slot="end">
+      <ion-button (click)="updateIncome(income)">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteIncome(income.id, income.name)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
 </ion-content>

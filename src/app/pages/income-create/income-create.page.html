@@ -3,10 +3,40 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Add an Expenditure</ion-title>
+    <ion-title>Add an Income</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  <form [formGroup]="createIncomeForm" (submit)="createIncome()">
+    <ion-item>
+      <ion-label stacked>Date Created</ion-label>
+      <ion-input formControlName="dateCreated" type="date">
+      </ion-input>
+    </ion-item>
 
+    <ion-item>
+      <ion-label stacked>Name</ion-label>
+      <ion-input autocomplete autocapitalize formControlName="name" type="text"
+        placeholder="Give a name to your Income">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Amount £</ion-label>
+      <ion-input formControlName="amount" type="number" placeholder="Amount of this expenditure?" inputmode="decimal">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Description</ion-label>
+      <ion-textarea spellcheck autoGrow formControlName="description" type="text"
+        placeholder="Give more details about this description">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!createIncomeForm.valid">
+      Add Income
+    </ion-button>
+  </form>
 </ion-content>

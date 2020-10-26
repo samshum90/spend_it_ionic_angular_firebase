@@ -17,7 +17,6 @@ import { SpendUpdateComponent } from '../../components/spend-update/spend-update
     SpendDetailPageRoutingModule,
     ReactiveFormsModule,
   ],
-
   entryComponents: [SpendUpdateComponent],
   declarations: [SpendDetailPage, SpendUpdateComponent],
 })

@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthGuard } from "../../shared/auth.guard";
+import { SecureInnerPagesGuard } from "../../shared/secure-inner-pages.guard";
+
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
     path: 'tabs',
     component: TabsPage,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'expenditure',
@@ -56,14 +60,16 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: '/login',
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [SecureInnerPagesGuard]
       }
     ]
   },
   {
     path: '',
     redirectTo: '/login',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [SecureInnerPagesGuard]
   }
 ];
 

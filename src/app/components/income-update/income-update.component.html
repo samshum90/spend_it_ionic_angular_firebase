@@ -1,3 +1,47 @@
-<p>
-  income-update works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>UPDATE RECORD</ion-title>
+    <!-- <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button> -->
+    <ion-buttons slot="end">
+      <ion-button (click)="CloseModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="editIncomeForm" (submit)="updateIncome()">
+    <ion-item>
+      <ion-label stacked>Date Created</ion-label>
+      <ion-input slot="end" formControlName="dateCreated" type="date">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Name</ion-label>
+      <ion-input autocomplete autocapitalize formControlName="name" type="text"
+        placeholder="Give a name to your expenditure">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Amount £</ion-label>
+      <ion-input slot="end" formControlName="amount" type="number" placeholder="Amount of this expenditure?"
+        inputmode="decimal">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Description</ion-label>
+      <ion-textarea spellcheck autoGrow formControlName="description" type="text"
+        placeholder="Give more details about this description">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!editIncomeForm.valid">
+      Submit
+    </ion-button>
+  </form>
+</ion-content>
