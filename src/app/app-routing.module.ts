@@ -82,6 +82,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/budget/budget.module').then(m => m.BudgetPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'create',
+    loadChildren: () => import('./pages/create/create.module').then( m => m.CreatePageModule)
+  },
 ];
 
 @NgModule({

@@ -21,12 +21,6 @@ export class IncomeCreatePage implements OnInit {
     formBuilder: FormBuilder,
     private router: Router
   ) {
-    // this.categoriesList = ["Food", "Take Away", "Personal", "Entertainment", "Service", "Other"]
-    this.firestoreService.getCategoriesList().pipe(
-      map((res: any) => res.categories)
-    ).subscribe(res => {
-      this.categoriesList = res;
-    })
     this.createIncomeForm = formBuilder.group({
       dateCreated: ['', Validators.required],
       name: ['', Validators.required],

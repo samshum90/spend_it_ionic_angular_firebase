@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Spend it.</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Which would you like to add:</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-radio-group allow-empty-selection value="Expenditure" (ionChange)="radioGroupChange($event)">
+        <ion-item>
+          <ion-label>Expenditure</ion-label>
+          <ion-radio slot="end" color="primary" value="Expenditure"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Income</ion-label>
+          <ion-radio slot="end" color="secondary" value="Income"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-card-content>
+  </ion-card>
+
+
+  <form [formGroup]="createForm" (submit)="submit()" *ngIf="selectedRadioGroup === 'Income'">
+    <ion-item>
+      <ion-label stacked>Date Created</ion-label>
+      <ion-input formControlName="dateCreated" type="date">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Name</ion-label>
+      <ion-input autocomplete autocapitalize formControlName="name" type="text"
+        placeholder="Give a name to your Income">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Amount £</ion-label>
+      <ion-input formControlName="amount" type="number" placeholder="Amount of this expenditure?" inputmode="decimal">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Description</ion-label>
+      <ion-textarea spellcheck autoGrow formControlName="description" type="text"
+        placeholder="Give more details about this description">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!createForm.valid">
+      Add Income
+    </ion-button>
+  </form>
+
+  <form [formGroup]="createForm" (submit)="submit()" *ngIf="selectedRadioGroup === 'Expenditure'">
+    <ion-item>
+      <ion-label stacked>Date Created</ion-label>
+      <ion-input slot="end" formControlName="dateCreated" type="date">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Spend Name</ion-label>
+      <ion-input autocomplete autocapitalize formControlName="name" type="text"
+        placeholder="Give a name to your expenditure">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Category</ion-label>
+      <ion-select formControlName="category" placeholder="Select a category">
+        <ion-select-option *ngFor="let category of categoriesList">{{category}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Amount £</ion-label>
+      <ion-input slot="end" formControlName="amount" type="number" placeholder="Amount of this expenditure?"
+        inputmode="decimal">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Spend Description</ion-label>
+      <ion-textarea spellcheck autoGrow formControlName="description" type="text"
+        placeholder="Give more details about this description">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!createForm.valid">
+      Add Spend
+    </ion-button>
+  </form>
+</ion-content>
