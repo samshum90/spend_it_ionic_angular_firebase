@@ -6,48 +6,6 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
-    children: [
-      {
-        path: 'expenditure',
-        redirectTo: 'home',
-      },
-      {
-        path: 'income',
-        children: [
-          {
-            path: '',
-            loadChildren: ''
-          }
-        ]
-      },
-      {
-        path: 'budget',
-        children: [
-          {
-            path: '',
-            loadChildren: ''
-          }
-        ]
-      },
-      {
-        path: 'dashboard',
-        children: [
-          {
-            path: '',
-            loadChildren: ''
-          }
-        ]
-      },
-      {
-        path: 'about',
-        children: [
-          {
-            path: '',
-            loadChildren: ''
-          }
-        ]
-      },
-    ],
   }
 ]
 

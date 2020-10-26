@@ -6,15 +6,19 @@ import { SecureInnerPagesGuard } from "./shared/secure-inner-pages.guard";
 
 const routes: Routes = [
   {
+    path: '',
+    loadChildren: () => import('./tabs/tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+  {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
     canActivate: [AuthGuard]
   },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'home',
+  //   pathMatch: 'full'
+  // },
   {
     path: 'registration',
     loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationPageModule),
@@ -56,6 +60,26 @@ const routes: Routes = [
   {
     path: 'income-create',
     loadChildren: () => import('./pages/income-create/income-create.module').then(m => m.IncomeCreatePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs/tabs.module').then(m => m.TabsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'expenditure',
+    loadChildren: () => import('./pages/expenditure/expenditure.module').then(m => m.ExpenditurePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'income',
+    loadChildren: () => import('./pages/income/income.module').then(m => m.IncomePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'budget',
+    loadChildren: () => import('./pages/budget/budget.module').then(m => m.BudgetPageModule),
     canActivate: [AuthGuard]
   },
 ];
