@@ -2,27 +2,27 @@
   <ion-toolbar>
     <ion-title>Expenditure</ion-title>
     <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/spend-create">
-        <ion-icon slot="icon-only" name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="padding">
   <ion-item *ngFor="let spend of spendList | async">
     <ion-label routerLink="/spend-detail/{{spend.id}}">
-      <h2>{{ spend.spendName}}</h2>
+      <h2>{{ spend.name}}</h2>
       <p>Amount: £{{ spend.amount }}</p>
     </ion-label>
     <ion-buttons slot="end">
       <ion-button (click)="updateSpend(spend)">
         <ion-icon name="create-outline"></ion-icon>
       </ion-button>
-      <ion-button (click)="deleteSpend(spend.id, spend.spendName)">
+      <ion-button (click)="deleteSpend(spend.id, spend.name)">
         <ion-icon name="trash-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-item>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/spend-create">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

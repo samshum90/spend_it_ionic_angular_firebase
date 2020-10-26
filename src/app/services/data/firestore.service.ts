@@ -35,8 +35,8 @@ export class FirestoreService {
 
   createSpend(
     dateCreated: string,
-    spendName: string,
-    spendDescription: string,
+    name: string,
+    description: string,
     category: string,
     amount: string,
     type: string
@@ -48,8 +48,8 @@ export class FirestoreService {
       .collection(`spend`).doc(`${id}`).set({
         id,
         dateCreated,
-        spendName,
-        spendDescription,
+        name,
+        description,
         category,
         amount,
         type,
@@ -73,8 +73,8 @@ export class FirestoreService {
   updateSpend(
     id: string,
     dateCreated: string,
-    spendName: string,
-    spendDescription: string,
+    name: string,
+    description: string,
     category: string,
     amount: number,
     type: string,
@@ -86,8 +86,8 @@ export class FirestoreService {
       .update({
         id: id,
         dateCreated: dateCreated,
-        spendName: spendName,
-        spendDescription: spendDescription,
+        name: name,
+        description: description,
         category: category,
         amount: amount,
         type: type,

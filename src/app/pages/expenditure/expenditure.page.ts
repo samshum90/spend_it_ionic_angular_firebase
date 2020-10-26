@@ -27,9 +27,9 @@ export class ExpenditurePage implements OnInit {
     this.spendList = this.firestoreService.getSpendList();
   }
 
-  async deleteSpend(spendId: string, spendName: string): Promise<void> {
+  async deleteSpend(spendId: string, name: string): Promise<void> {
     const alert = await this.alertController.create({
-      message: `Are you sure you want to delete ${spendName}?`,
+      message: `Are you sure you want to delete ${name}?`,
       buttons: [
         {
           text: 'Cancel',

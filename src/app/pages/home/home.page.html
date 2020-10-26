@@ -2,27 +2,43 @@
   <ion-toolbar>
     <ion-title>Spend It.</ion-title>
     <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/create">
-        <ion-icon slot="icon-only" name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="padding">
-  <ion-item *ngFor="let spend of spendList | async">
-    <ion-label routerLink="/spend-detail/{{spend.id}}">
-      <h2>{{ spend.spendName}}</h2>
-      <p>Amount: £{{ spend.amount }}</p>
+  <ion-item *ngFor="let item of itemList">
+    <ion-label routerLink="/spend-detail/{{item.id}}" *ngIf="!condition(item.type)"
+      [color]="condition(item.type) ? 'success' : 'danger'">
+      <h2>{{ item.name}}</h2>
+      <p>Amount: £{{ item.amount }}</p>
     </ion-label>
-    <ion-buttons slot="end">
-      <ion-button (click)="updateSpend(spend)">
+    <ion-buttons slot="end" *ngIf="!condition(item.type)">
+      <ion-button (click)="updateSpend(item)">
         <ion-icon name="create-outline"></ion-icon>
       </ion-button>
-      <ion-button (click)="deleteSpend(spend.id, spend.spendName)">
+      <ion-button (click)="deleteSpend(item.id, item.name)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-label routerLink="/income-detail/{{item.id}}" *ngIf="condition(item.type)"
+      [color]="condition(item.type) ? 'success' : 'danger'">
+      <h2>{{ item.name}}</h2>
+      <p>Amount: £{{ item.amount }}</p>
+    </ion-label>
+    <ion-buttons slot="end" *ngIf="condition(item.type)">
+      <ion-button (click)="updateIncome(item)">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteIncome(item.id, item.name)">
         <ion-icon name="trash-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-item>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/create">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

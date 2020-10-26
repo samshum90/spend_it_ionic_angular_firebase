@@ -29,8 +29,8 @@ export class SpendUpdateComponent implements OnInit {
     })
     this.editSpendForm = formBuilder.group({
       dateCreated: ['', Validators.required],
-      spendName: ['', Validators.required],
-      spendDescription: [''],
+      name: ['', Validators.required],
+      description: [''],
       category: ['', Validators.required],
       amount: ['', Validators.required],
       type: ['', Validators.required],
@@ -42,8 +42,8 @@ export class SpendUpdateComponent implements OnInit {
   updateValues() {
     this.editSpendForm.setValue({
       dateCreated: this.spend.dateCreated,
-      spendName: this.spend.spendName,
-      spendDescription: this.spend.spendDescription,
+      name: this.spend.name,
+      description: this.spend.description,
       category: this.spend.category,
       amount: this.spend.amount,
       type: this.spend.type,
@@ -53,16 +53,16 @@ export class SpendUpdateComponent implements OnInit {
   async updateSpend() {
     const loading = await this.loadingCtrl.create();
     const dateCreated = this.editSpendForm.value.dateCreated;
-    const spendName = this.editSpendForm.value.spendName;
-    const spendDescription = this.editSpendForm.value.spendDescription;
+    const name = this.editSpendForm.value.name;
+    const description = this.editSpendForm.value.description;
     const category = this.editSpendForm.value.category;
     const amount = this.editSpendForm.value.amount;
     const type = this.editSpendForm.value.type;
     this.firestoreService.updateSpend(
       this.spend.id,
       dateCreated,
-      spendName,
-      spendDescription,
+      name,
+      description,
       category,
       amount,
       type

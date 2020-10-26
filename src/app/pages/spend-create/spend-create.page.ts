@@ -29,8 +29,8 @@ export class SpendCreatePage implements OnInit {
     })
     this.createSpendForm = formBuilder.group({
       dateCreated: ['', Validators.required],
-      spendName: ['', Validators.required],
-      spendDescription: [''],
+      name: ['', Validators.required],
+      description: [''],
       category: ['', Validators.required],
       amount: ['', Validators.required],
       type: ['', Validators.required],
@@ -47,8 +47,8 @@ export class SpendCreatePage implements OnInit {
     const loading = await this.loadingCtrl.create();
 
     const dateCreated = this.createSpendForm.value.dateCreated;
-    const spendName = this.createSpendForm.value.spendName;
-    const spendDescription = this.createSpendForm.value.spendDescription;
+    const name = this.createSpendForm.value.name;
+    const description = this.createSpendForm.value.description;
     const category = this.createSpendForm.value.category;
     const amount = this.createSpendForm.value.amount;
     const type = this.createSpendForm.value.type;
@@ -56,8 +56,8 @@ export class SpendCreatePage implements OnInit {
     this.firestoreService
       .createSpend(
         dateCreated,
-        spendName,
-        spendDescription,
+        name,
+        description,
         category,
         amount,
         type)
@@ -81,8 +81,8 @@ export class SpendCreatePage implements OnInit {
     let today = new Date().toISOString().substr(0, 10);
     this.createSpendForm.patchValue({
       dateCreated: today,
-      spendName: '',
-      spendDescription: '',
+      name: '',
+      description: '',
       category: '',
       amount: '.00',
       type: 'Expenditure'

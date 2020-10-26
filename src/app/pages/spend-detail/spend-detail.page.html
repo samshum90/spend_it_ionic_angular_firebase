@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ spend?.spendName }}</ion-title>
+    <ion-title>{{ spend?.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -18,9 +18,9 @@
   <p>£{{ spend?.amount }}</p>
 
   <h3>Description</h3>
-  <p>{{ spend?.spendDescription }}</p>
+  <p>{{ spend?.description }}</p>
 
 
   <ion-button expand="block" (click)="updateSpend(spend)"> EDIT </ion-button>
-  <ion-button expand="block" (click)="deleteSpend(spend.id, spend.spendName)"> DELETE </ion-button>
+  <ion-button expand="block" (click)="deleteSpend(spend.id, spend.name)"> DELETE </ion-button>
 </ion-content>
