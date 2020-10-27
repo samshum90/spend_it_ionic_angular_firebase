@@ -84,7 +84,7 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    loadChildren: () => import('./pages/create/create.module').then( m => m.CreatePageModule)
+    loadChildren: () => import('./pages/create/create.module').then(m => m.CreatePageModule)
   },
 ];
 

@@ -54,7 +54,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../../pages/budget/budget.module').then(m => m.BudgetPageModule)
-          }
+          },
         ],
       },
       {

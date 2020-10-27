@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, ModalController } from '@ionic/angular';
 import { FirestoreService } from '../../services/data/firestore.service';
 import { map } from 'rxjs/operators';
+
+import { CategoryCreateComponent } from "../../components/category-create/category-create.component";
 
 @Component({
   selector: 'app-budget',
@@ -18,17 +20,16 @@ export class BudgetPage implements OnInit {
     public alertCtrl: AlertController,
     private firestoreService: FirestoreService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private modalController: ModalController,
   ) {
     this.budgetForm = formBuilder.group({});
     this.firestoreService.getCategoriesList().pipe(
       map((res: any) => res.categories)
     ).subscribe(res => {
       this.categoriesList = res,
-
         res.map((x, i) => {
-          console.log(x),
-            this.budgetForm.addControl(`${x}`, this.formBuilder.control(x))
+          this.budgetForm.addControl(`${x}`, this.formBuilder.control(x))
         })
 
     })
@@ -60,6 +61,17 @@ export class BudgetPage implements OnInit {
         }
       );
     return await loading.present();
+  }
+
+  async createCategory() {
+    const modal = await this.modalController.create({
+      component: CategoryCreateComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        "categories": this.categoriesList
+      }
+    });
+    return await modal.present();
   }
 
 }

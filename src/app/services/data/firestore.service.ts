@@ -26,6 +26,11 @@ export class FirestoreService {
     return this.firestore.collection(`user`).doc(`${userId.uid}`).valueChanges()
   }
 
+  updateCategories(categories: any[]) {
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore.collection(`user`).doc(`${userId.uid}`).update({ categories })
+  }
+
   getSpendList(): Observable<Spend[]> {
     const userId = JSON.parse(localStorage.getItem('user'))
     return this.firestore
