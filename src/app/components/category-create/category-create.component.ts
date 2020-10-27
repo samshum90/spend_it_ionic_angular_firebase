@@ -23,7 +23,6 @@ export class CategoryCreateComponent implements OnInit {
       ...this.categories,
       category.value
     ]
-    console.log(categories)
     this.firestoreService.updateCategories(
       categories
     ).then(() => {
@@ -44,4 +43,5 @@ export class CategoryCreateComponent implements OnInit {
   CloseModal() {
     this.modalCtrl.dismiss()
   }
+
 }

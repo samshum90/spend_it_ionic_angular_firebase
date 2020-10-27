@@ -11,6 +11,11 @@
       <ion-input formControlName="{{category.key}}" type="number" placeholder="Amount of this expenditure?"
         inputmode="decimal">
       </ion-input>
+      <ion-buttons slot="end">
+        <ion-button (click)="deleteCategory(categoriesList.indexOf(category.key), category.key)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
 
     <ion-button expand="block" type="submit">

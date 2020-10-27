@@ -16,6 +16,7 @@ export class BudgetPage implements OnInit {
   public categoriesList: any[];
   public budgetForm: FormGroup;
   constructor(
+    private alertController: AlertController,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     private firestoreService: FirestoreService,
@@ -28,15 +29,18 @@ export class BudgetPage implements OnInit {
       map((res: any) => res.categories)
     ).subscribe(res => {
       this.categoriesList = res,
-        res.map((x, i) => {
-          this.budgetForm.addControl(`${x}`, this.formBuilder.control(x))
-        })
+        this.createForm(res)
 
     })
-
   }
 
   ngOnInit() {
+  }
+
+  createForm(res) {
+    res.map(x => {
+      this.budgetForm.addControl(`${x}`, this.formBuilder.control(x))
+    })
   }
 
   async createBudget() {
@@ -72,6 +76,33 @@ export class BudgetPage implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  async deleteCategory(index: number, name: string) {
+    const alert = await this.alertController.create({
+      message: `Are you sure you want to delete ${name}?`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: blah => {
+            console.log('Confirm Cancel: blah');
+          },
+        },
+        {
+          text: 'Okay',
+          handler: () => {
+            let categories = this.categoriesList
+            categories.splice(index, 1)
+            this.firestoreService.updateCategories(
+              categories
+            ), this.budgetForm.removeControl(name)
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
 }
