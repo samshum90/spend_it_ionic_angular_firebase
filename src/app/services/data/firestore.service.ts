@@ -157,4 +157,19 @@ export class FirestoreService {
         type: type,
       });
   }
+
+  createBudget(
+    budget: {},
+    date: string,
+  ): Promise<void> {
+    const id = this.firestore.createId();
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`budget`).doc(`${id}`).set({
+        id,
+        budget,
+        date
+      });
+  }
 }

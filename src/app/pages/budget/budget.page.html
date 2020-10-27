@@ -1,9 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>budget</ion-title>
+    <ion-title>Budget</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="padding">
+  <form [formGroup]="budgetForm" (submit)="createBudget()">
+    <ion-item *ngFor="let category of budgetForm.controls | keyvalue">
+      <ion-label stacked>{{category.key}} £</ion-label>
+      <ion-input formControlName="{{category.key}}" type="number" placeholder="Amount of this expenditure?"
+        inputmode="decimal">
+      </ion-input>
+    </ion-item>
 
+    <ion-button expand="block" type="submit">
+      Submit
+    </ion-button>
+  </form>
 </ion-content>
