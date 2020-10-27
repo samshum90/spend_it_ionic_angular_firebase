@@ -3,6 +3,6 @@ export interface Income {
     dateCreated: string;
     name: string;
     description: string;
-    amount: string;
+    amount: number;
     type: string;
 }

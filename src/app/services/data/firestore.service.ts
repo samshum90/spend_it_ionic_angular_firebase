@@ -177,4 +177,11 @@ export class FirestoreService {
         date
       });
   }
+
+  getBudgetList() {
+    const userId = JSON.parse(localStorage.getItem('user'))
+    return this.firestore
+      .collection('user').doc(`${userId.uid}`)
+      .collection(`budget`).valueChanges();
+  }
 }
