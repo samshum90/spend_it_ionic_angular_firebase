@@ -23,7 +23,7 @@ export class DashboardPage implements OnInit {
   public incomeList: Observable<Income[]>;
   public categoriesList: Observable<any[]>;
   public budgetList: Observable<any[]>;
-  public totalIncome: any;
+  public totalIncome: number;
   constructor(
     public authService: AuthenticationService,
     private firestoreService: FirestoreService,
@@ -34,9 +34,10 @@ export class DashboardPage implements OnInit {
       this.categoriesList = res,
     );
     this.firestoreService.getIncomeList().pipe(
-      map((income: Income[]) => income.map(income => income.amount)),
-      reduce((acc: any, curr: any) => acc + curr, 0)
-    ).subscribe(res => this.totalIncome = res);
+      map((income: Income[]) => income.map((income: Income) => income.amount).reduce((total, price) => total + price, 0))
+      // map((income: Income[]) => income.map((income: Income) => income.amount)),
+      // reduce<number[], number>((total, amount) => total + amount, 0)
+    ).subscribe(total => this.totalIncome = total);
     this.spendList = this.firestoreService.getSpendList();
     this.incomeList = this.firestoreService.getIncomeList();
     this.budgetList = this.firestoreService.getBudgetList();
