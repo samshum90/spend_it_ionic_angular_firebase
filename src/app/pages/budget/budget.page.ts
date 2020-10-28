@@ -46,7 +46,18 @@ export class BudgetPage implements OnInit {
   async createBudget() {
     let today = new Date().toISOString().substr(0, 10);
     const loading = await this.loadingCtrl.create();
-    const budget = this.budgetForm.value;
+    const budget =
+      // Object.keys(this.budgetForm.value).reduce((arr, key) => arr.concat(this.budgetForm.value[key]), []);
+      Object.keys(this.budgetForm.value).reduce((arr, key) => {
+        const subObj = { "name": key, "amount": this.budgetForm.value[key] };
+        return arr.concat(subObj)
+      }, []);
+    // const budget = [];
+    // for (let i in this.budgetForm.value) {
+    //   budget.push(
+    //     Object.assign(this.budgetForm.value[i], { name: i }));
+    // };
+    console.log(budget, this.budgetForm)
     this.firestoreService
       .createBudget(
         budget,

@@ -13,70 +13,103 @@
   <ion-card>
     <ion-card-content>
       <ion-item lines="none">
-        <ion-label stacked>Select Month</ion-label>
-        <ion-datetime displayFormat="MMMM" [(ngModel)]="monthSelected"></ion-datetime>
+        <ion-label stacked>Select Month and Year</ion-label>
+        <ion-datetime displayFormat="MMMM YYYY" [(ngModel)]="dateSelected" (ngModelChange)="handleDateChange()">
+        </ion-datetime>
       </ion-item>
     </ion-card-content>
   </ion-card>
 
-  <ion-list>
-    <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="true">
+  <ion-reorder-group (ionItemReorder)="handleDateChange()" disabled="true">
+    <ion-card>
+      <ion-card-header>
+        <ion-item>
+          <ion-card-title>Expenditure</ion-card-title>
+          <ion-reorder slot="end"></ion-reorder>
+        </ion-item>
+      </ion-card-header>
 
-      <ion-card>
-        <ion-card-header>
-          <ion-item>
-            <ion-card-title>Expenditure</ion-card-title>
-            <ion-reorder slot="end"></ion-reorder>
-          </ion-item>
-        </ion-card-header>
+      <ion-card-content>
+        <ion-item *ngFor="let category of expenditureTotals">
+          <ion-label>
+            <ion-text color="secondary">
+              <p>{{category.name}}</p>
+            </ion-text>
+          </ion-label>
+          <ion-label slot="end">
+            <ion-text color="secondary">
+              <p>£ {{category.total}}</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <ion-text color="secondary">
+              <p>Total </p>
+            </ion-text>
+          </ion-label>
+          <ion-label slot="end">
+            <ion-text color="secondary">
+              <p>£ {{totalExpenditure}}</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
 
-        <ion-card-content>
-          <ion-item *ngFor="let category of categoriesList">
-            <ion-label>
-              <ion-text color="secondary">
-                <p>{{category}}</p>
-              </ion-text>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label>
-              <ion-text color="secondary">
-                <p>Total</p>
-              </ion-text>
-            </ion-label>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-item>
+          <ion-card-title>Income</ion-card-title>
+          <ion-reorder slot="end"></ion-reorder>
+        </ion-item>
+      </ion-card-header>
 
-      <ion-card>
-        <ion-card-header>
-          <ion-item>
-            <ion-card-title>Income</ion-card-title>
-            <ion-reorder slot="end"></ion-reorder>
-          </ion-item>
-        </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label>
+            <ion-text color="secondary">
+              <p>Total</p>
+            </ion-text>
+          </ion-label>
+          <ion-label slot="end">
+            <ion-text color="secondary">
+              <p>£{{totalIncome}}</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
 
-        <ion-card-content>
-          <ion-item>
-            <ion-label>
-              <ion-text color="secondary">
-                <p>Total</p>
-              </ion-text>
-            </ion-label>
-            <ion-label slot="end">
-              <ion-text color="secondary">
-                <p>£{{totalIncome }}</p>
-              </ion-text>
-            </ion-label>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-item>
+          <ion-card-title>Budget</ion-card-title>
+          <ion-reorder slot="end"></ion-reorder>
+        </ion-item>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="!!selectedBudget">
+        <ion-item *ngFor="let category of selectedBudget">
+          <ion-label>
+            <ion-text color="secondary">
+              <p>{{category.name}}</p>
+            </ion-text>
+          </ion-label>
+          <ion-label slot="end">
+            <ion-text color="secondary">
+              <p>£{{category.amount}}</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
 
 
-      <ion-button (click)="test()">
-        <ion-icon name="add"></ion-icon>
-      </ion-button>
+    <ion-button (click)="test()">
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
 
-    </ion-reorder-group>
-  </ion-list>
+  </ion-reorder-group>
+
 </ion-content>

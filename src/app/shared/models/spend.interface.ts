@@ -4,6 +4,6 @@ export interface Spend {
     name: string;
     description: string;
     category: string;
-    amount: string;
+    amount: number;
     type: string;
 }

@@ -165,7 +165,7 @@ export class FirestoreService {
 
   createBudget(
     budget: {},
-    date: string,
+    dateCreated: string,
   ): Promise<void> {
     const id = this.firestore.createId();
     const userId = JSON.parse(localStorage.getItem('user'))
@@ -174,7 +174,7 @@ export class FirestoreService {
       .collection(`budget`).doc(`${id}`).set({
         id,
         budget,
-        date
+        dateCreated
       });
   }
 
