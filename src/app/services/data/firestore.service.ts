@@ -171,7 +171,7 @@ export class FirestoreService {
     const userId = JSON.parse(localStorage.getItem('user'))
     return this.firestore
       .collection('user').doc(`${userId.uid}`)
-      .collection(`budget`).doc(`${id}`).set({
+      .collection(`budget`).doc(`${dateCreated}`).set({
         id,
         budget,
         dateCreated

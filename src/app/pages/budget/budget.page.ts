@@ -30,11 +30,11 @@ export class BudgetPage implements OnInit {
     ).subscribe(res => {
       this.categoriesList = res,
         this.createForm(res)
-
     })
   }
 
   ngOnInit() {
+
   }
 
   createForm(res) {
@@ -66,6 +66,7 @@ export class BudgetPage implements OnInit {
       .then(
         () => {
           loading.dismiss().then(() => {
+            this.budgetForm.reset(this.budgetForm.value);
             this.router.navigateByUrl('tabs/dashboard');
           });
         },

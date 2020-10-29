@@ -67,6 +67,15 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'charts',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../../pages/charts/charts.module').then(m => m.ChartsPageModule)
+          }
+        ],
+      },
+      {
         path: '',
         redirectTo: '/login',
         pathMatch: 'full',

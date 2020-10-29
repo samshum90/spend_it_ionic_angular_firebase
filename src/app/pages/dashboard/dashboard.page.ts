@@ -3,7 +3,7 @@ import { IonReorderGroup } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/core';
 import { AuthenticationService } from "../../shared/authentication-service";
 import { FirestoreService } from '../../services/data/firestore.service';
-import { filter, map, reduce } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Observable } from 'rxjs';
 import { Spend } from '../../shared/models/spend.interface';
@@ -16,17 +16,15 @@ import { Income } from '../../shared/models/income.interface';
 })
 
 export class DashboardPage implements OnInit {
-  @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
-  items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   public dateSelected: string = new Date().toISOString();
   public spendList: Spend[];
-  public incomeList: any[];
+  public incomeList: Income[];
   public categoriesList: any[];
   public budgetList: any[];
   public totalIncome: number;
   public expenditureTotals: any[];
   public totalExpenditure: number;
-  public selectedBudget: {};
+  public selectedBudget: any[];
   constructor(
     public authService: AuthenticationService,
     private firestoreService: FirestoreService,
@@ -78,20 +76,10 @@ export class DashboardPage implements OnInit {
   populateLatestBudget() {
     const selectedMonthBudgets = this.budgetList.filter(budget => budget.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
     if (selectedMonthBudgets.length === 0) {
-      this.selectedBudget = null;
+      this.selectedBudget = this.budgetList[this.budgetList.length - 1].budget
     } else {
-      this.selectedBudget = selectedMonthBudgets[0].budget
+      this.selectedBudget = selectedMonthBudgets[selectedMonthBudgets.length - 1].budget
     }
-  }
-
-  doReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    console.log('Before complete', this.items);
-    this.items = ev.detail.complete(this.items);
-    console.log('After complete', this.items);
-  }
-
-  toggleReorderGroup() {
-    this.reorderGroup.disabled = !this.reorderGroup.disabled;
   }
 
   handleDateChange() {
