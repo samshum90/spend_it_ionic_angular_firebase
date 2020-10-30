@@ -3,6 +3,7 @@ import { Chart } from "chart.js";
 import { AuthenticationService } from "../../shared/authentication-service";
 import { FirestoreService } from '../../services/data/firestore.service';
 import { map } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { Spend } from '../../shared/models/spend.interface';
 import { Income } from '../../shared/models/income.interface';
@@ -28,6 +29,10 @@ export class ChartsPage implements OnInit {
   public budgetTotals: any[];
   public expenditureLabels: any[];
   public selectedBudget: any[];
+  public yearlyBudgetTotals: any[];
+  public yearlyExpenditureTotals: any[];
+  public yearlyIncomeTotals: any[];
+  public yearlyLabels: any[];
 
   constructor(
     public authService: AuthenticationService,
@@ -46,18 +51,19 @@ export class ChartsPage implements OnInit {
       this.incomeList = res, this.populateIncomeTotal()
     });
     this.firestoreService.getSpendList().subscribe((res: any[]) => {
-      this.spendList = res, this.populateExpenditureChart()
+      this.spendList = res, this.populateExpenditureChart(), this.populateYearlyChart()
     });
   }
 
   ngOnInit() {
-    this.lineChartMethod()
+
   }
 
   handleDateChange() {
     this.populateLatestBudget();
     this.populateExpenditureChart();
     this.populateIncomeTotal();
+    this.populateYearlyChart();
     this.barChart.update();
     this.doughnutChart.update();
   }
@@ -66,10 +72,10 @@ export class ChartsPage implements OnInit {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: "line",
       data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        labels: this.yearlyLabels,
         datasets: [
           {
-            label: "My First dataset",
+            label: "Expenditure",
             fill: false,
             lineTension: 0.1,
             backgroundColor: "rgba(75,192,192,0.4)",
@@ -87,9 +93,53 @@ export class ChartsPage implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
+            data: this.yearlyExpenditureTotals,
             spanGaps: false
-          }
+          },
+          {
+            label: "Income",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: "butt",
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: "miter",
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: this.yearlyIncomeTotals,
+            spanGaps: false
+          },
+          {
+            label: "Budget",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: "butt",
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: "miter",
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: this.yearlyBudgetTotals,
+            spanGaps: false
+          },
         ]
       }
     });
@@ -167,6 +217,41 @@ export class ChartsPage implements OnInit {
       }
     });
   }
+  populateYearlyChart() {
+    const labels = [];
+    const expenditure = [];
+    const budget = [];
+    const income = [];
+
+
+    for (let i = 0; i < 6; i++) {
+      const monthlyExpenditure = this.spendList.filter(spend => moment(spend.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
+        .map(spend => spend.amount).reduce((total, amount) => total + amount, 0);
+      const label = moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("MMM-YYYY");
+      const monthlyIncome = this.incomeList.filter(income => moment(income.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
+        .map(income => income.amount).reduce((total, amount) => total + amount, 0);
+      const monthlyBudget = this.budgetList.filter(budget => moment(budget.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
+      function findNullBudget(monthlyBudget) {
+        if (monthlyBudget.length === 0) {
+          return null;
+        }
+        return monthlyBudget[monthlyBudget.length - 1].budget.map(category => category.amount).reduce((total, amount) => total + amount, 0);
+      }
+      expenditure.unshift(monthlyExpenditure);
+      labels.unshift(label);
+      income.unshift(monthlyIncome);
+      budget.unshift(findNullBudget(monthlyBudget));
+    }
+    this.yearlyLabels = labels;
+    this.yearlyExpenditureTotals = expenditure;
+    this.yearlyIncomeTotals = income;
+    this.yearlyBudgetTotals = budget;
+    this.lineChartMethod();
+    console.log(this.yearlyLabels,
+      this.yearlyExpenditureTotals,
+      this.yearlyIncomeTotals,
+      this.yearlyBudgetTotals)
+  }
 
   populateExpenditureChart() {
     const labels = [];
@@ -177,16 +262,16 @@ export class ChartsPage implements OnInit {
       const total = selectedSpends.filter(spend => spend.category === this.categoriesList[i])
         .map(spend => spend.amount).reduce((total, amount) => total + amount, 0)
       const name = this.categoriesList[i]
-      const amount = this.selectedBudget.find(category => category.name === this.categoriesList[i])
+      const monthlyBudget = this.selectedBudget.find(category => category.name === this.categoriesList[i])
       expenditure.push(total)
       labels.push(name)
-      function budgetAmount(amount) {
-        if (!amount) {
+      function budgetAmount(monthlyBudget) {
+        if (!monthlyBudget) {
           return null;
         }
-        return amount.amount;
+        return monthlyBudget.amount;
       }
-      budget.push(budgetAmount(amount))
+      budget.push(budgetAmount(monthlyBudget))
     }
     this.expenditureTotals = expenditure;
     this.budgetTotals = budget;
