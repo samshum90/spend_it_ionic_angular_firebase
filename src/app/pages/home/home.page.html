@@ -5,36 +5,83 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="padding">
-  <ion-item *ngFor="let item of itemList">
-    <ion-label routerLink="/spend-detail/{{item.id}}" *ngIf="!condition(item.type)"
-      [color]="condition(item.type) ? 'success' : 'danger'">
-      <h2>{{ item.name}}</h2>
-      <p>Amount: £{{ item.amount }}</p>
-    </ion-label>
-    <ion-buttons slot="end" *ngIf="!condition(item.type)">
-      <ion-button (click)="updateSpend(item)">
-        <ion-icon name="create-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="deleteSpend(item.id, item.name)">
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+<ion-content fullscreen class="ion-padding">
+  <ion-segment value="all" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="expenditure">
+      <ion-label>Expenditure</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="income">
+      <ion-label>Income</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <div *ngIf="selectedSegment === 'all'">
+    <ion-item *ngFor="let item of itemList">
+      <ion-label routerLink="/spend-detail/{{item.id}}" *ngIf="!condition(item.type)"
+        [color]="condition(item.type) ? 'success' : 'danger'">
+        <h2>{{ item.name}}</h2>
+        <p>Amount: £{{ item.amount }}</p>
+      </ion-label>
+      <ion-buttons slot="end" *ngIf="!condition(item.type)">
+        <ion-button (click)="updateSpend(item)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="deleteSpend(item.id, item.name)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
 
-    <ion-label routerLink="/income-detail/{{item.id}}" *ngIf="condition(item.type)"
-      [color]="condition(item.type) ? 'success' : 'danger'">
-      <h2>{{ item.name}}</h2>
-      <p>Amount: £{{ item.amount }}</p>
-    </ion-label>
-    <ion-buttons slot="end" *ngIf="condition(item.type)">
-      <ion-button (click)="updateIncome(item)">
-        <ion-icon name="create-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="deleteIncome(item.id, item.name)">
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-item>
+      <ion-label routerLink="/income-detail/{{item.id}}" *ngIf="condition(item.type)"
+        [color]="condition(item.type) ? 'success' : 'danger'">
+        <h2>{{ item.name}}</h2>
+        <p>Amount: £{{ item.amount }}</p>
+      </ion-label>
+      <ion-buttons slot="end" *ngIf="condition(item.type)">
+        <ion-button (click)="updateIncome(item)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="deleteIncome(item.id, item.name)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </div>
+
+  <div *ngIf="selectedSegment === 'expenditure'">
+    <ion-item *ngFor="let spend of spendList | async">
+      <ion-label routerLink="/spend-detail/{{spend.id}}">
+        <h2>{{ spend.name}}</h2>
+        <p>Amount: £{{ spend.amount }}</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click)="updateSpend(spend)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="deleteSpend(spend.id, spend.name)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </div>
+
+  <div *ngIf="selectedSegment === 'income'">
+    <ion-item *ngFor="let income of incomeList | async">
+      <ion-label routerLink="/income-detail/{{income.id}}">
+        <h2>{{ income.name}}</h2>
+        <p>Amount: £{{ income.amount }}</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click)="updateIncome(income)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="deleteIncome(income.id, income.name)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLink="/create">

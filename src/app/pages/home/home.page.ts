@@ -17,6 +17,9 @@ import { Income } from 'src/app/shared/models/income.interface';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  public selectedSegment: any = 'all'
+  public spendList: Observable<Spend[]>;
+  public incomeList: Observable<Income[]>;
   public itemList: any[];
   constructor(
     private firestoreService: FirestoreService,
@@ -27,6 +30,8 @@ export class HomePage {
   ) { }
 
   ngOnInit() {
+    this.spendList = this.firestoreService.getSpendList();
+    this.incomeList = this.firestoreService.getIncomeList();
     this.createItemList()
   }
 
@@ -115,6 +120,10 @@ export class HomePage {
       return true;
     }
     return false;
+  }
+
+  segmentChanged(event) {
+    this.selectedSegment = event.detail.value
   }
 
 }

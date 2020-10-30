@@ -8,26 +8,12 @@
 </ion-header>
 
 <ion-content fullscreen>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Which would you like to add:</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-radio-group allow-empty-selection value="Expenditure" (ionChange)="radioGroupChange($event)">
-        <ion-item>
-          <ion-label>Expenditure</ion-label>
-          <ion-radio slot="end" color="primary" value="Expenditure"></ion-radio>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>Income</ion-label>
-          <ion-radio slot="end" color="secondary" value="Income"></ion-radio>
-        </ion-item>
-      </ion-radio-group>
-    </ion-card-content>
-  </ion-card>
-
+  <ion-toolbar>
+    <ion-segment value="Expenditure" (ionChange)="radioGroupChange($event)">
+      <ion-segment-button value="Expenditure">Expenditure</ion-segment-button>
+      <ion-segment-button value="Income">Income</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
   <form [formGroup]="createForm" (submit)="submit()" *ngIf="selectedRadioGroup === 'Income'">
     <ion-item>

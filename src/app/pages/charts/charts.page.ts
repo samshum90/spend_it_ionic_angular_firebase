@@ -78,8 +78,8 @@ export class ChartsPage implements OnInit {
             label: "Expenditure",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
+            backgroundColor: 'rgba(255, 99, 132, 0.8)',
+            borderColor: "rgba(255, 99, 132, 1)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -100,8 +100,8 @@ export class ChartsPage implements OnInit {
             label: "Income",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
+            backgroundColor: "rgba(34, 136, 51,0.8)",
+            borderColor: "rgba(34, 136, 51,1)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -122,8 +122,8 @@ export class ChartsPage implements OnInit {
             label: "Budget",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
+            backgroundColor: "rgba(238, 119, 52, 0.8)",
+            borderColor: "rgba(238, 119, 52,1)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -156,28 +156,28 @@ export class ChartsPage implements OnInit {
             label: "Expenditure(£)",
             data: this.expenditureTotals,
             backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
+              "rgba(255, 99, 132, 0.7)",
+              "rgba(54, 162, 235, 0.7)",
+              "rgba(255, 206, 86, 0.7)",
+              "rgba(75, 192, 192, 0.7)",
+              "rgba(153, 102, 255, 0.7)",
+              "rgba(255, 159, 64, 0.7)",
             ],
             borderColor: [
-              "rgba(255,99,132,1)",
+              "rgba(255, 99, 132, 1)",
               "rgba(54, 162, 235, 1)",
               "rgba(255, 206, 86, 1)",
               "rgba(75, 192, 192, 1)",
               "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)"
+              "rgba(255, 159, 64, 1)",
             ],
             borderWidth: 1
           },
           {
             label: "Budget (£)",
             data: this.budgetTotals,
-            backgroundColor: "#42d77d",
-            borderColor: "#2dd36f",
+            backgroundColor: "rgba(238, 119, 52, 0.7)",
+            borderColor: "rgba(238, 119, 52, 1)",
             borderWidth: 1
           },
         ]
@@ -204,14 +204,21 @@ export class ChartsPage implements OnInit {
             label: "% of your Expenditures",
             data: this.expenditureTotals,
             backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
+              "rgba(255, 99, 132, 0.8)",
+              "rgba(54, 162, 235, 0.8)",
+              "rgba(255, 206, 86, 0.8)",
+              "rgba(75, 192, 192, 0.8)",
+              "rgba(153, 102, 255, 0.8)",
+              "rgba(255, 159, 64, 0.8)",
             ],
-            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56"]
+            hoverBackgroundColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(153, 102, 255, 1)",
+              "rgba(255, 159, 64, 1)",
+            ]
           }
         ]
       }
@@ -233,7 +240,7 @@ export class ChartsPage implements OnInit {
       const monthlyBudget = this.budgetList.filter(budget => moment(budget.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
       function findNullBudget(monthlyBudget) {
         if (monthlyBudget.length === 0) {
-          return null;
+          return 0;
         }
         return monthlyBudget[monthlyBudget.length - 1].budget.map(category => category.amount).reduce((total, amount) => total + amount, 0);
       }
@@ -247,10 +254,6 @@ export class ChartsPage implements OnInit {
     this.yearlyIncomeTotals = income;
     this.yearlyBudgetTotals = budget;
     this.lineChartMethod();
-    console.log(this.yearlyLabels,
-      this.yearlyExpenditureTotals,
-      this.yearlyIncomeTotals,
-      this.yearlyBudgetTotals)
   }
 
   populateExpenditureChart() {
@@ -289,7 +292,8 @@ export class ChartsPage implements OnInit {
       this.barChart.data.labels.unshift("Total");
       this.barChart.data.datasets.push({
         label: 'Income',
-        backgroundColor: '#ff0000',
+        backgroundColor: "rgba(34, 136, 51, 0.7)",
+        borderColor: "rgba(34, 136, 51, 1)",
         data: [this.totalIncome]
       });
     }
