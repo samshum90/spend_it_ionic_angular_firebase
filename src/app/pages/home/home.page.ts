@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { combineLatest } from "rxjs";
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { FirestoreService } from '../../services/data/firestore.service';
 import { Spend } from '../../shared/models/spend.interface';
 import { AuthenticationService } from "../../shared/authentication-service";
@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SpendUpdateComponent } from '../../components/spend-update/spend-update.component';
 import { IncomeUpdateComponent } from '../../components/income-update/income-update.component';
 import { Income } from 'src/app/shared/models/income.interface';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -39,8 +40,9 @@ export class HomePage {
     const list = []
     const spend = this.firestoreService.getSpendList();
     const income = this.firestoreService.getIncomeList();
-    combineLatest(spend, income)
-      .subscribe((res: any) => this.itemList = res.flat())
+    combineLatest(spend, income).pipe(map((item: any) => item.flat()
+      .sort((a: any, b: any) => <any>moment(a.dateCreated).format('YYYYMMDD') - <any>moment(b.dateCreated).format('YYYYMMDD'))))
+      .subscribe((res: any) => this.itemList = res)
   }
 
   async deleteSpend(spendId: string, name: string): Promise<void> {

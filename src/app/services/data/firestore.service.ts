@@ -14,7 +14,7 @@ export class FirestoreService {
 
   createCategories(userId: string): Promise<void> {
     // const id = this.firestore.createId();
-    const categories = ["Food", "Take Away", "Personal", "Entertainment", "Service", "Other"]
+    const categories = ["Food", "Take Away", "Personal", "Entertainment", "Service", "Bills", "Other"]
     return this.firestore.collection('user').doc(`${userId}`).set({
       // id,
       categories
@@ -33,9 +33,12 @@ export class FirestoreService {
 
   getSpendList(): Observable<Spend[]> {
     const userId = JSON.parse(localStorage.getItem('user'))
-    return this.firestore
+    const spendCollection = this.firestore
       .collection('user').doc(`${userId.uid}`)
-      .collection<Spend>(`spend`).valueChanges();
+      .collection<Spend>(`spend`, ref => ref.orderBy("dateCreated"));
+
+    const spend = spendCollection.valueChanges()
+    return spend;
   }
 
   createSpend(
@@ -99,11 +102,15 @@ export class FirestoreService {
       });
   }
 
+
   getIncomeList(): Observable<Income[]> {
     const userId = JSON.parse(localStorage.getItem('user'))
-    return this.firestore
+    const incomeCollection = this.firestore
       .collection('user').doc(`${userId.uid}`)
-      .collection<Income>(`income`).valueChanges();
+      .collection<Income>(`income`, ref => ref.orderBy("dateCreated"));
+
+    const income = incomeCollection.valueChanges();
+    return income;
   }
 
   createIncome(

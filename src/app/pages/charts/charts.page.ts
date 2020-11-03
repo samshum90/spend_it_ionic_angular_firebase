@@ -51,11 +51,12 @@ export class ChartsPage implements OnInit {
       this.incomeList = res, this.populateIncomeTotal()
     });
     this.firestoreService.getSpendList().subscribe((res: any[]) => {
-      this.spendList = res, this.populateExpenditureChart(), this.populateYearlyChart()
+      this.spendList = res, this.populateExpenditureChart(), this.populateYearlyChart(), this.lineChartMethod(), this.chartMethod()
     });
   }
 
   ngOnInit() {
+
 
   }
 
@@ -64,8 +65,7 @@ export class ChartsPage implements OnInit {
     this.populateExpenditureChart();
     this.populateIncomeTotal();
     this.populateYearlyChart();
-    this.barChart.update();
-    this.doughnutChart.update();
+
   }
 
   lineChartMethod() {
@@ -253,7 +253,6 @@ export class ChartsPage implements OnInit {
     this.yearlyExpenditureTotals = expenditure;
     this.yearlyIncomeTotals = income;
     this.yearlyBudgetTotals = budget;
-    this.lineChartMethod();
   }
 
   populateExpenditureChart() {
@@ -280,7 +279,6 @@ export class ChartsPage implements OnInit {
     this.budgetTotals = budget;
     this.expenditureLabels = labels;
 
-    this.chartMethod()
   }
 
   addTotals() {

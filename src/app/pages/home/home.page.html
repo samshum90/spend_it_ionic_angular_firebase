@@ -23,6 +23,7 @@
         [color]="condition(item.type) ? 'success' : 'danger'">
         <h2>{{ item.name}}</h2>
         <p>Amount: £{{ item.amount }}</p>
+        <p>Date: {{ item.dateCreated }}</p>
       </ion-label>
       <ion-buttons slot="end" *ngIf="!condition(item.type)">
         <ion-button (click)="updateSpend(item)">
@@ -37,6 +38,7 @@
         [color]="condition(item.type) ? 'success' : 'danger'">
         <h2>{{ item.name}}</h2>
         <p>Amount: £{{ item.amount }}</p>
+        <p>Date: {{ item.dateCreated }}</p>
       </ion-label>
       <ion-buttons slot="end" *ngIf="condition(item.type)">
         <ion-button (click)="updateIncome(item)">
@@ -54,6 +56,7 @@
       <ion-label routerLink="/spend-detail/{{spend.id}}">
         <h2>{{ spend.name}}</h2>
         <p>Amount: £{{ spend.amount }}</p>
+        <p>Date: {{ spend.dateCreated }}</p>
       </ion-label>
       <ion-buttons slot="end">
         <ion-button (click)="updateSpend(spend)">
@@ -71,6 +74,7 @@
       <ion-label routerLink="/income-detail/{{income.id}}">
         <h2>{{ income.name}}</h2>
         <p>Amount: £{{ income.amount }}</p>
+        <p>Date: {{ income.dateCreated }}</p>
       </ion-label>
       <ion-buttons slot="end">
         <ion-button (click)="updateIncome(income)">

@@ -43,11 +43,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'spend-create',
-    loadChildren: () => import('./pages/spend-create/spend-create.module').then(m => m.SpendCreatePageModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'spend-detail/:id',
     loadChildren: () => import('./pages/spend-detail/spend-detail.module').then(m => m.SpendDetailPageModule),
     canActivate: [AuthGuard]
@@ -58,23 +53,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'income-create',
-    loadChildren: () => import('./pages/income-create/income-create.module').then(m => m.IncomeCreatePageModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'expenditure',
-    loadChildren: () => import('./pages/expenditure/expenditure.module').then(m => m.ExpenditurePageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'income',
-    loadChildren: () => import('./pages/income/income.module').then(m => m.IncomePageModule),
     canActivate: [AuthGuard]
   },
   {
@@ -88,7 +68,7 @@ const routes: Routes = [
   },
   {
     path: 'charts',
-    loadChildren: () => import('./pages/charts/charts.module').then( m => m.ChartsPageModule)
+    loadChildren: () => import('./pages/charts/charts.module').then(m => m.ChartsPageModule)
   },
 ];
 

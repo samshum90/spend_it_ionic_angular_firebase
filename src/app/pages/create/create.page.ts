@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { FirestoreService } from '../../services/data/firestore.service';
+import { AuthenticationService } from "../../shared/authentication-service";
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -18,6 +19,7 @@ export class CreatePage implements OnInit {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     private firestoreService: FirestoreService,
+    public authService: AuthenticationService,
     formBuilder: FormBuilder,
     private router: Router
   ) {
@@ -42,7 +44,7 @@ export class CreatePage implements OnInit {
     this.selectedRadioGroup = "Expenditure"
   }
 
-  async submit() {
+  async submitIncome() {
     const loading = await this.loadingCtrl.create();
 
     const dateCreated = this.createForm.value.dateCreated;
@@ -84,6 +86,7 @@ export class CreatePage implements OnInit {
         .then(
           () => {
             loading.dismiss().then(() => {
+              this.updateDate();
               this.router.navigateByUrl('');
             });
           },
@@ -95,6 +98,41 @@ export class CreatePage implements OnInit {
         );
     }
 
+
+    return await loading.present();
+  }
+
+  async submitExpenditure() {
+    const loading = await this.loadingCtrl.create();
+
+    const dateCreated = this.createForm.value.dateCreated;
+    const name = this.createForm.value.name;
+    const description = this.createForm.value.description;
+    const category = this.createForm.value.category;
+    const amount = this.createForm.value.amount;
+    const type = this.createForm.value.type;
+
+    this.firestoreService
+      .createSpend(
+        dateCreated,
+        name,
+        description,
+        category,
+        amount,
+        type)
+      .then(
+        () => {
+          loading.dismiss().then(() => {
+            this.updateDate();
+            this.router.navigateByUrl('');
+          });
+        },
+        error => {
+          loading.dismiss().then(() => {
+            console.error(error);
+          });
+        }
+      );
 
     return await loading.present();
   }

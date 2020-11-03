@@ -3,6 +3,7 @@
     <ion-title>
       Charts
     </ion-title>
+    <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -19,7 +20,7 @@
 
   <ion-card>
     <ion-card-header>
-      Monthly
+      <ion-card-title>Monthly</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <canvas #barCanvas></canvas>
@@ -36,7 +37,7 @@
 
   <ion-card>
     <ion-card-header>
-      Expenditure
+      <ion-card-title>Expenditure</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <canvas #doughnutCanvas></canvas>
@@ -45,7 +46,7 @@
 
   <ion-card>
     <ion-card-header>
-      Yearly
+      <ion-card-title>Yearly</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <canvas #lineCanvas></canvas>

@@ -1,28 +1,37 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Budget</ion-title>
+    <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="padding">
-  <form [formGroup]="budgetForm" (submit)="createBudget()">
-    <ion-item *ngFor="let category of budgetForm.controls | keyvalue">
-      <ion-label stacked>{{category.key}} £</ion-label>
-      <ion-input formControlName="{{category.key}}" type="number" placeholder="Set a budget for this"
-        inputmode="decimal">
-      </ion-input>
-      <ion-buttons slot="end">
-        <ion-button (click)="deleteCategory(categoriesList.indexOf(category.key), category.key)">
-          <ion-icon name="trash-outline"></ion-icon>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Add a budget goal for the month </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form [formGroup]="budgetForm" (submit)="createBudget()">
+        <ion-item *ngFor="let category of budgetForm.controls | keyvalue">
+          <ion-label stacked>{{category.key}} £</ion-label>
+          <ion-input formControlName="{{category.key}}" type="number" placeholder="Set a budget for this"
+            inputmode="decimal">
+          </ion-input>
+          <ion-buttons slot="end">
+            <ion-button (click)="deleteCategory(categoriesList.indexOf(category.key), category.key)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+
+        <ion-button expand="block" type="submit">
+          Submit
         </ion-button>
-      </ion-buttons>
-    </ion-item>
+      </form>
 
-    <ion-button expand="block" type="submit">
-      Submit
-    </ion-button>
-  </form>
-
+    </ion-card-content>
+  </ion-card>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="createCategory()">
       <ion-icon name="add"></ion-icon>

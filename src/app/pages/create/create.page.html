@@ -4,6 +4,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Spend it.</ion-title>
+    <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -15,7 +16,7 @@
     </ion-segment>
   </ion-toolbar>
 
-  <form [formGroup]="createForm" (submit)="submit()" *ngIf="selectedRadioGroup === 'Income'">
+  <form [formGroup]="createForm" (submit)="submitIncome()" *ngIf="selectedRadioGroup === 'Income'">
     <ion-item>
       <ion-label stacked>Date Created</ion-label>
       <ion-input formControlName="dateCreated" type="date">
@@ -47,7 +48,7 @@
     </ion-button>
   </form>
 
-  <form [formGroup]="createForm" (submit)="submit()" *ngIf="selectedRadioGroup === 'Expenditure'">
+  <form [formGroup]="createForm" (submit)="submitExpenditure()" *ngIf="selectedRadioGroup === 'Expenditure'">
     <ion-item>
       <ion-label stacked>Date Created</ion-label>
       <ion-input slot="end" formControlName="dateCreated" type="date">
