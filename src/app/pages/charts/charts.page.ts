@@ -70,13 +70,6 @@ export class ChartsPage implements OnInit {
     this.populateLatestBudget();
     this.populateExpenditureChart();
     this.populateIncomeTotal();
-    this.populateYearlyChart();
-
-    console.log(
-      this.dateSelected,
-      this.expenditureTotals,
-      this.budgetTotals,
-      this.expenditureLabels)
   }
 
   lineChartMethod() {
