@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FirestoreService } from '../../services/data/firestore.service';
@@ -11,6 +11,7 @@ import { SpendUpdateComponent } from '../../components/spend-update/spend-update
 import { IncomeUpdateComponent } from '../../components/income-update/income-update.component';
 import { Income } from 'src/app/shared/models/income.interface';
 import * as moment from 'moment';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ import * as moment from 'moment';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   public selectedSegment: any = 'all'
   public spendList: Observable<Spend[]>;
   public incomeList: Observable<Income[]>;
@@ -37,7 +39,6 @@ export class HomePage {
   }
 
   async createItemList() {
-    const list = []
     const spend = this.firestoreService.getSpendList();
     const income = this.firestoreService.getIncomeList();
     combineLatest(spend, income).pipe(map((item: any) => item.flat()
@@ -128,4 +129,12 @@ export class HomePage {
     this.selectedSegment = event.detail.value
   }
 
+  loadData(event) {
+    setTimeout(() => {
+      event.target.complete();
+      if (this.itemList.length == 1000) {
+        event.target.disabled = true;
+      }
+    }, 500);
+  }
 }

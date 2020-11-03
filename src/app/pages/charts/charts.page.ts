@@ -33,6 +33,10 @@ export class ChartsPage implements OnInit {
   public yearlyExpenditureTotals: any[];
   public yearlyIncomeTotals: any[];
   public yearlyLabels: any[];
+  public lineChartBudgetTotals: any[];
+  public lineChartExpenditureTotals: any[];
+  public lineChartIncomeTotals: any[];
+  public lineChartLabels: any[];
 
   constructor(
     public authService: AuthenticationService,
@@ -51,13 +55,15 @@ export class ChartsPage implements OnInit {
       this.incomeList = res, this.populateIncomeTotal()
     });
     this.firestoreService.getSpendList().subscribe((res: any[]) => {
-      this.spendList = res, this.populateExpenditureChart(), this.populateYearlyChart(), this.lineChartMethod(), this.chartMethod()
+      this.spendList = res,
+        this.populateExpenditureChart(),
+        this.populateYearlyChart(),
+        this.lineChartMethod()
     });
   }
 
   ngOnInit() {
-
-
+    this.chartMethod();
   }
 
   handleDateChange() {
@@ -66,13 +72,18 @@ export class ChartsPage implements OnInit {
     this.populateIncomeTotal();
     this.populateYearlyChart();
 
+    console.log(
+      this.dateSelected,
+      this.expenditureTotals,
+      this.budgetTotals,
+      this.expenditureLabels)
   }
 
   lineChartMethod() {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: "line",
       data: {
-        labels: this.yearlyLabels,
+        labels: this.lineChartLabels,
         datasets: [
           {
             label: "Expenditure",
@@ -93,7 +104,7 @@ export class ChartsPage implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: this.yearlyExpenditureTotals,
+            data: this.lineChartExpenditureTotals,
             spanGaps: false
           },
           {
@@ -115,7 +126,7 @@ export class ChartsPage implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: this.yearlyIncomeTotals,
+            data: this.lineChartIncomeTotals,
             spanGaps: false
           },
           {
@@ -137,7 +148,7 @@ export class ChartsPage implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: this.yearlyBudgetTotals,
+            data: this.lineChartBudgetTotals,
             spanGaps: false
           },
         ]
@@ -231,7 +242,7 @@ export class ChartsPage implements OnInit {
     const income = [];
 
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 12; i++) {
       const monthlyExpenditure = this.spendList.filter(spend => moment(spend.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
         .map(spend => spend.amount).reduce((total, amount) => total + amount, 0);
       const label = moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("MMM-YYYY");
@@ -253,6 +264,35 @@ export class ChartsPage implements OnInit {
     this.yearlyExpenditureTotals = expenditure;
     this.yearlyIncomeTotals = income;
     this.yearlyBudgetTotals = budget;
+
+    this.lineChartLabels = labels.slice(6, 13);
+    this.lineChartExpenditureTotals = expenditure.slice(6, 13);
+    this.lineChartIncomeTotals = income.slice(6, 13);
+    this.lineChartBudgetTotals = budget.slice(6, 13);
+  }
+
+
+  addMonth() {
+    if (this.lineChart.data.datasets[2].data.length < 12) {
+      const monthlyExpenditure = this.yearlyExpenditureTotals[11 - this.lineChartExpenditureTotals.length]
+      const monthlyIncome = this.yearlyIncomeTotals[11 - this.lineChartIncomeTotals.length]
+      const monthlyBudget = this.yearlyBudgetTotals[11 - this.lineChartBudgetTotals.length]
+      const monthlyLabel = this.yearlyLabels[11 - this.lineChartLabels.length]
+
+      this.lineChart.data.datasets[0].data.unshift(monthlyExpenditure);
+      this.lineChart.data.datasets[1].data.unshift(monthlyIncome);
+      this.lineChart.data.datasets[2].data.unshift(monthlyBudget);
+      this.lineChart.data.labels.unshift(monthlyLabel);
+      this.lineChart.update();
+    }
+  }
+
+  removeMonth() {
+    this.lineChart.data.datasets[0].data.shift();
+    this.lineChart.data.datasets[1].data.shift();
+    this.lineChart.data.datasets[2].data.shift();
+    this.lineChart.data.labels.shift();
+    this.lineChart.update();
   }
 
   populateExpenditureChart() {
@@ -279,6 +319,14 @@ export class ChartsPage implements OnInit {
     this.budgetTotals = budget;
     this.expenditureLabels = labels;
 
+    this.barChart.data.datasets[0].data = this.expenditureTotals
+    this.barChart.data.datasets[1].data = this.budgetTotals
+    this.barChart.data.labels = this.expenditureLabels
+    this.barChart.update()
+
+    this.doughnutChart.data.datasets[0].data = this.expenditureTotals
+    this.doughnutChart.data.labels = this.expenditureLabels
+    this.doughnutChart.update()
   }
 
   addTotals() {
@@ -294,17 +342,18 @@ export class ChartsPage implements OnInit {
         borderColor: "rgba(34, 136, 51, 1)",
         data: [this.totalIncome]
       });
+      this.barChart.update();
     }
-    this.barChart.update();
   }
 
   removeTotals() {
-    this.barChart.data.datasets[0].data.shift();
-    this.barChart.data.datasets[1].data.shift();
-    this.barChart.data.labels.shift();
-    this.barChart.data.datasets.pop();
-
-    this.barChart.update();
+    if (this.barChart.data.datasets.length === 3) {
+      this.barChart.data.datasets[0].data.shift();
+      this.barChart.data.datasets[1].data.shift();
+      this.barChart.data.labels.shift();
+      this.barChart.data.datasets.pop();
+      this.barChart.update();
+    }
   }
 
   populateIncomeTotal() {
@@ -321,6 +370,5 @@ export class ChartsPage implements OnInit {
       this.selectedBudget = selectedMonthBudgets[selectedMonthBudgets.length - 1].budget
     }
   }
-
 
 }

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>UPDATE RECORD</ion-title>
+    <ion-title>Update Expenditure</ion-title>
     <!-- <ion-button slot="end" type="submit" (click)="authService.SignOut()" size="small">Logout</ion-button> -->
     <ion-buttons slot="end">
       <ion-button (click)="CloseModal()">
@@ -15,16 +15,19 @@
   <form [formGroup]="editSpendForm" (submit)="updateSpend()">
     <ion-item>
       <ion-label stacked>Date Created</ion-label>
-      <ion-input slot="end" formControlName="dateCreated" type="date">
-      </ion-input>
+      <ion-datetime displayFormat="DD MMMM YYYY" formControlName="dateCreated">
+      </ion-datetime>
+      <!-- <ion-input formControlName="dateCreated" type="date"> -->
+      <!-- </ion-input> -->
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Spend Name</ion-label>
-      <ion-input autocomplete autocapitalize formControlName="name" type="text"
-        placeholder="Give a name to your expenditure">
+      <ion-label stacked>Name</ion-label>
+      <ion-input class="ion-text-end" slot="end" autocomplete autocapitalize formControlName="name" type="text"
+        placeholder="Give your expenditure a name">
       </ion-input>
     </ion-item>
+
     <ion-item>
       <ion-label stacked>Category</ion-label>
       <ion-select formControlName="category" placeholder="Select a category">
@@ -36,15 +39,15 @@
 
     <ion-item>
       <ion-label stacked>Amount £</ion-label>
-      <ion-input slot="end" formControlName="amount" type="number" placeholder="Amount of this expenditure?"
-        inputmode="decimal">
+      <ion-input class="ion-text-end" slot="end" formControlName="amount" type="number"
+        placeholder="Amount of this expenditure?" inputmode="decimal">
       </ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Spend Description</ion-label>
-      <ion-textarea spellcheck autoGrow formControlName="description" type="text"
-        placeholder="Give more details about this description">
+      <ion-textarea class="ion-text-end" slot="end" spellcheck autoGrow formControlName="description" type="text"
+        placeholder="Add a description">
       </ion-textarea>
     </ion-item>
 

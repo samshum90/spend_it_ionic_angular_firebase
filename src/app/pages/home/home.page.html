@@ -19,7 +19,7 @@
   </ion-segment>
   <div *ngIf="selectedSegment === 'all'">
     <ion-item *ngFor="let item of itemList">
-      <ion-label routerLink="/spend-detail/{{item.id}}" *ngIf="!condition(item.type)"
+      <ion-label routerLink="/tabs/spend-detail/{{item.id}}" *ngIf="!condition(item.type)"
         [color]="condition(item.type) ? 'success' : 'danger'">
         <h2>{{ item.name}}</h2>
         <p>Amount: £{{ item.amount }}</p>
@@ -34,7 +34,7 @@
         </ion-button>
       </ion-buttons>
 
-      <ion-label routerLink="/income-detail/{{item.id}}" *ngIf="condition(item.type)"
+      <ion-label routerLink="/tabs/income-detail/{{item.id}}" *ngIf="condition(item.type)"
         [color]="condition(item.type) ? 'success' : 'danger'">
         <h2>{{ item.name}}</h2>
         <p>Amount: £{{ item.amount }}</p>
@@ -53,7 +53,7 @@
 
   <div *ngIf="selectedSegment === 'expenditure'">
     <ion-item *ngFor="let spend of spendList | async">
-      <ion-label routerLink="/spend-detail/{{spend.id}}">
+      <ion-label routerLink="/tabs/spend-detail/{{spend.id}}">
         <h2>{{ spend.name}}</h2>
         <p>Amount: £{{ spend.amount }}</p>
         <p>Date: {{ spend.dateCreated }}</p>
@@ -71,7 +71,7 @@
 
   <div *ngIf="selectedSegment === 'income'">
     <ion-item *ngFor="let income of incomeList | async">
-      <ion-label routerLink="/income-detail/{{income.id}}">
+      <ion-label routerLink="/tabs/income-detail/{{income.id}}">
         <h2>{{ income.name}}</h2>
         <p>Amount: £{{ income.amount }}</p>
         <p>Date: {{ income.dateCreated }}</p>
@@ -87,8 +87,13 @@
     </ion-item>
   </div>
 
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="/create">
+    <ion-fab-button routerLink="/tabs/create">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

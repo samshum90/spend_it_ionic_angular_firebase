@@ -3,12 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Income</ion-title>
+    <ion-title>{{ income?.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h3>{{ income?.name }}</h3>
   <h4>Date created</h4>
   <p>{{ income?.dateCreated }}.</p>
 
@@ -18,7 +17,7 @@
   <h4>Description</h4>
   <p>{{ income?.description }}</p>
 
-
-  <ion-button expand="block" (click)="updateIncome(income)"> EDIT </ion-button>
-  <ion-button expand="block" (click)="deleteIncome(income.id, income.name)"> DELETE </ion-button>
 </ion-content>
+
+<ion-button slots="end" expand="block" (click)="updateIncome(income)"> EDIT </ion-button>
+<ion-button expand="block" (click)="deleteIncome(income.id, income.name)"> DELETE </ion-button>

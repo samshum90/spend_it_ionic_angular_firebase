@@ -33,8 +33,6 @@
     </ion-card-content>
   </ion-card>
 
-
-
   <ion-card>
     <ion-card-header>
       <ion-card-title>Expenditure</ion-card-title>
@@ -50,10 +48,13 @@
     </ion-card-header>
     <ion-card-content>
       <canvas #lineCanvas></canvas>
+      <ion-button type="button" (click)="addMonth()">
+        Add Month
+      </ion-button>
+      <ion-button type="button" (click)="removeMonth()">
+        Remove Month
+      </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <ion-button type="button" (click)="populateYearlyChart()">
-    test
-  </ion-button>
 </ion-content>

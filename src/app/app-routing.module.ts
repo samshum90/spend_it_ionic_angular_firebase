@@ -38,37 +38,9 @@ const routes: Routes = [
     canActivate: [SecureInnerPagesGuard]
   },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'spend-detail/:id',
-    loadChildren: () => import('./pages/spend-detail/spend-detail.module').then(m => m.SpendDetailPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'income-detail/:id',
-    loadChildren: () => import('./pages/income-detail/income-detail.module').then(m => m.IncomeDetailPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs/tabs.module').then(m => m.TabsPageModule),
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'budget',
-    loadChildren: () => import('./pages/budget/budget.module').then(m => m.BudgetPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'create',
-    loadChildren: () => import('./pages/create/create.module').then(m => m.CreatePageModule)
-  },
-  {
-    path: 'charts',
-    loadChildren: () => import('./pages/charts/charts.module').then(m => m.ChartsPageModule)
   },
 ];
 

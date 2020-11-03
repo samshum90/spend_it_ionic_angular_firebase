@@ -22,6 +22,33 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'create',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../../pages/create/create.module').then(m => m.CreatePageModule)
+          },
+        ],
+      },
+      {
+        path: 'income-detail/:id',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../../pages/income-detail/income-detail.module').then(m => m.IncomeDetailPageModule),
+          },
+        ],
+      },
+      {
+        path: 'spend-detail/:id',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../../pages/spend-detail/spend-detail.module').then(m => m.SpendDetailPageModule)
+          },
+        ],
+      },
+      {
         path: 'budget',
         children: [
           {
