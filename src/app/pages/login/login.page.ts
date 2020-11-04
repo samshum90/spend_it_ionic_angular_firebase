@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { AuthenticationService } from "../../shared/authentication-service";
+import { AuthenticationService } from "../../services/auth/authentication-service";
 
 @Component({
   selector: 'app-login',
@@ -20,8 +20,7 @@ export class LoginPage implements OnInit {
   logIn(email, password) {
     this.authService.SignIn(email.value, password.value)
       .then((res) => {
-
-        this.router.navigate(['tabs/home']);
+        this.router.navigate(['/tabs/home']);
 
       }).catch((error) => {
         window.alert(error.message)

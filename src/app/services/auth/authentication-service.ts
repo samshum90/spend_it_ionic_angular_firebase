@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { auth } from 'firebase/app';
-import { User } from "./models/user.interface";
+import { User } from "../../shared/models/user.interface";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';

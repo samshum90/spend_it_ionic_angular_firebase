@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonReorderGroup } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/core';
-import { AuthenticationService } from "../../shared/authentication-service";
+import { AuthenticationService } from "../../services/auth/authentication-service";
 import { FirestoreService } from '../../services/data/firestore.service';
 import { map } from 'rxjs/operators';
 

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -17,10 +17,13 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
-import { AuthenticationService } from "./../app/shared/authentication-service";
+import { AuthenticationService } from "./services/auth/authentication-service";
+import { ServiceWorkerModule } from '@angular/service-worker';
+
+import { CategoryCreateComponent } from "./components/category-create/category-create.component";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CategoryCreateComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -32,7 +35,7 @@ import { AuthenticationService } from "./../app/shared/authentication-service";
     AngularFireDatabaseModule,
     AngularFirestoreModule,
     FormsModule,
-
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     StatusBar,
@@ -41,6 +44,7 @@ import { AuthenticationService } from "./../app/shared/authentication-service";
     AuthenticationService,
     AngularFirestoreModule,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
