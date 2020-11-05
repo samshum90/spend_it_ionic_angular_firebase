@@ -149,7 +149,6 @@ export class ChartsPage implements OnInit {
     });
   }
 
-
   chartMethod() {
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: "bar",
@@ -357,7 +356,20 @@ export class ChartsPage implements OnInit {
 
   populateLatestBudget() {
     const selectedMonthBudgets = this.budgetList.filter(budget => budget.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
-    if (selectedMonthBudgets.length === 0) {
+    if (selectedMonthBudgets.length === 0 && this.budgetList.length === 0) {
+      const zeroBudget = []
+      for (let i = 0; i < this.categoriesList.length; i++) {
+        const name = this.categoriesList[i]
+        const object = {
+          name,
+          "amount": 0
+        }
+        zeroBudget.push(object)
+      }
+      const total = { "name": "Total", "amount": 0 }
+      zeroBudget.push(total)
+      this.selectedBudget = zeroBudget
+    } else if (selectedMonthBudgets.length === 0 && this.budgetList.length > 0) {
       this.selectedBudget = this.budgetList[this.budgetList.length - 1].budget
     } else {
       this.selectedBudget = selectedMonthBudgets[selectedMonthBudgets.length - 1].budget

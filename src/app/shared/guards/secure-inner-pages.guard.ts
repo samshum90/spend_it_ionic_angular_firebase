@@ -27,8 +27,8 @@ export class SecureInnerPagesGuard implements CanActivate {
       firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           ("You are already signed in");
-          this.router.navigate(['tabs/home'])
-          resolve(true);
+          this.router.navigate(['/tabs/home'])
+          resolve(false);
         } else {
           resolve(true);
         }

@@ -19,6 +19,17 @@
   </ion-card>
 
   <ion-card>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label stacked>Current incomings and outgoings</ion-label>
+        <ion-text color="secondary">
+          <p>£ {{currentExpenses}}</p>
+        </ion-text>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
     <ion-card-header>
       <ion-card-title>Expenditure</ion-card-title>
     </ion-card-header>
@@ -38,12 +49,12 @@
       </ion-item>
       <ion-item>
         <ion-label>
-          <ion-text color="secondary">
+          <ion-text color="danger">
             <p>Total </p>
           </ion-text>
         </ion-label>
         <ion-label slot="end">
-          <ion-text color="secondary">
+          <ion-text color="danger">
             <p>£ {{totalExpenditure}}</p>
           </ion-text>
         </ion-label>
@@ -59,12 +70,12 @@
     <ion-card-content>
       <ion-item>
         <ion-label>
-          <ion-text color="secondary">
+          <ion-text color="danger">
             <p>Total</p>
           </ion-text>
         </ion-label>
         <ion-label slot="end">
-          <ion-text color="secondary">
+          <ion-text color="danger">
             <p>£{{totalIncome}}</p>
           </ion-text>
         </ion-label>
@@ -80,12 +91,12 @@
     <ion-card-content *ngIf="!!selectedBudget">
       <ion-item *ngFor="let category of selectedBudget">
         <ion-label>
-          <ion-text color="secondary">
+          <ion-text [color]="colorCondition(category.name) ? 'secondary' : 'danger'">
             <p>{{category.name}}</p>
           </ion-text>
         </ion-label>
         <ion-label slot="end">
-          <ion-text color="secondary">
+          <ion-text [color]="colorCondition(category.name) ? 'secondary' : 'danger'">
             <p>£{{category.amount}}</p>
           </ion-text>
         </ion-label>

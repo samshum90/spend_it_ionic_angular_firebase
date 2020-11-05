@@ -24,6 +24,7 @@ export class DashboardPage implements OnInit {
   public totalIncome: number;
   public expenditureTotals: any[];
   public totalExpenditure: number;
+  public currentExpenses: number;
   public selectedBudget: any[];
   constructor(
     public authService: AuthenticationService,
@@ -42,7 +43,7 @@ export class DashboardPage implements OnInit {
     })
 
     this.firestoreService.getIncomeList().subscribe((res: any[]) => {
-      this.incomeList = res, this.populateIncomeTotal()
+      this.incomeList = res, this.populateIncomeTotal(), this.calculateCurrentExpense()
     });
   }
 
@@ -75,7 +76,20 @@ export class DashboardPage implements OnInit {
 
   populateLatestBudget() {
     const selectedMonthBudgets = this.budgetList.filter(budget => budget.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
-    if (selectedMonthBudgets.length === 0) {
+    if (selectedMonthBudgets.length === 0 && this.budgetList.length === 0) {
+      const zeroBudget = []
+      for (let i = 0; i < this.categoriesList.length; i++) {
+        const name = this.categoriesList[i]
+        const object = {
+          name,
+          "amount": 0
+        }
+        zeroBudget.push(object)
+      }
+      const total = { "name": "Total", "amount": 0 }
+      zeroBudget.push(total)
+      this.selectedBudget = zeroBudget
+    } else if (selectedMonthBudgets.length === 0 && this.budgetList.length > 0) {
       this.selectedBudget = this.budgetList[this.budgetList.length - 1].budget
     } else {
       this.selectedBudget = selectedMonthBudgets[selectedMonthBudgets.length - 1].budget
@@ -88,4 +102,14 @@ export class DashboardPage implements OnInit {
     this.populateLatestBudget();
   }
 
+  colorCondition(name: string) {
+    if (name === "Total") {
+      return false;
+    }
+    return true;
+  }
+
+  calculateCurrentExpense() {
+    this.currentExpenses = this.totalIncome - this.totalExpenditure
+  }
 }

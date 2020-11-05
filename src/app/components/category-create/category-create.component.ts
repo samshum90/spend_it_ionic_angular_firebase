@@ -36,7 +36,6 @@ export class CategoryCreateComponent implements OnInit {
         });
       }
     );
-    console.log(categories)
 
   }
 

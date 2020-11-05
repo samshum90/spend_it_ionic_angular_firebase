@@ -86,6 +86,7 @@ export class CreatePage implements OnInit {
         .then(
           () => {
             loading.dismiss().then(() => {
+              this.createForm.reset();
               this.updateDate();
               this.router.navigateByUrl('');
             });
@@ -123,6 +124,7 @@ export class CreatePage implements OnInit {
       .then(
         () => {
           loading.dismiss().then(() => {
+            this.createForm.reset();
             this.updateDate();
             this.router.navigateByUrl('');
           });
