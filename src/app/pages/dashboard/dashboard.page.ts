@@ -24,6 +24,7 @@ export class DashboardPage implements OnInit {
   public totalIncome: number;
   public expenditureTotals: any[];
   public totalExpenditure: number;
+  public currentExpenses: number;
   public selectedBudget: any[];
   constructor(
     public authService: AuthenticationService,
@@ -42,7 +43,7 @@ export class DashboardPage implements OnInit {
     })
 
     this.firestoreService.getIncomeList().subscribe((res: any[]) => {
-      this.incomeList = res, this.populateIncomeTotal()
+      this.incomeList = res, this.populateIncomeTotal(), this.calculateCurrentExpense()
     });
   }
 
@@ -106,5 +107,9 @@ export class DashboardPage implements OnInit {
       return false;
     }
     return true;
+  }
+
+  calculateCurrentExpense() {
+    this.currentExpenses = this.totalIncome - this.totalExpenditure
   }
 }

@@ -10,12 +10,13 @@ import { Income } from '../../shared/models/income.interface';
 })
 export class FirestoreService {
   public userId = JSON.parse(localStorage.getItem('user'))
+
   constructor(public firestore: AngularFirestore) { }
 
 
   createCategories(userId: string): Promise<void> {
     // const id = this.firestore.createId();
-    const categories = ["Food", "Take Away", "Personal", "Entertainment", "Service", "Bills", "Other"]
+    const categories = ["Food", "Eating Out", "Personal", "Entertainment", "Service", "Bills", "Other"]
     return this.firestore.collection('users').doc(`${userId}`).set({
       // id,
       categories
@@ -62,6 +63,7 @@ export class FirestoreService {
 
     return this.firestore
       .collection('users').doc(`${this.userId.uid}`)
+      .collection(`spend`).doc(`${id}`)
       .set({
         id,
         dateCreated,
@@ -80,7 +82,6 @@ export class FirestoreService {
   }
 
   deleteSpend(spendId: string): Promise<void> {
-
     return this.firestore
       .collection('users').doc(`${this.userId.uid}`)
       .collection(`spend`).doc<Spend>(spendId).delete();
@@ -95,7 +96,6 @@ export class FirestoreService {
     amount: number,
     type: string,
   ) {
-    const userId = JSON.parse(localStorage.getItem('users'))
     return this.firestore
       .collection('users').doc(`${this.userId.uid}`)
       .collection(`spend`).doc(id)
@@ -109,7 +109,6 @@ export class FirestoreService {
         type: type,
       });
   }
-
 
   getIncomeList(): Observable<Income[]> {
     const incomeCollection = this.firestore
