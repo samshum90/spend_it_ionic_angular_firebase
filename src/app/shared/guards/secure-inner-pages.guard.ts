@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthenticationService } from "./authentication-service";
+import { AuthenticationService } from "../../services/auth/authentication-service";
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -27,8 +27,8 @@ export class SecureInnerPagesGuard implements CanActivate {
       firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           ("You are already signed in");
-          this.router.navigate(['tabs/home'])
-          resolve(true);
+          this.router.navigate(['/tabs/home'])
+          resolve(false);
         } else {
           resolve(true);
         }

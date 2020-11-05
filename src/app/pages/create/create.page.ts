@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { FirestoreService } from '../../services/data/firestore.service';
-import { AuthenticationService } from "../../shared/authentication-service";
+import { AuthenticationService } from "../../services/auth/authentication-service";
 import { map } from 'rxjs/operators';
 
 @Component({

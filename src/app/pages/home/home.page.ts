@@ -3,7 +3,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FirestoreService } from '../../services/data/firestore.service';
 import { Spend } from '../../shared/models/spend.interface';
-import { AuthenticationService } from "../../shared/authentication-service";
+import { AuthenticationService } from "../../services/auth/authentication-service";
 
 import { AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';

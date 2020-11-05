@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonReorderGroup } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/core';
-import { AuthenticationService } from "../../shared/authentication-service";
+import { AuthenticationService } from "../../services/auth/authentication-service";
 import { FirestoreService } from '../../services/data/firestore.service';
 import { map } from 'rxjs/operators';
 
@@ -75,7 +75,20 @@ export class DashboardPage implements OnInit {
 
   populateLatestBudget() {
     const selectedMonthBudgets = this.budgetList.filter(budget => budget.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
-    if (selectedMonthBudgets.length === 0) {
+    if (selectedMonthBudgets.length === 0 && this.budgetList.length === 0) {
+      const zeroBudget = []
+      for (let i = 0; i < this.categoriesList.length; i++) {
+        const name = this.categoriesList[i]
+        const object = {
+          name,
+          "amount": 0
+        }
+        zeroBudget.push(object)
+      }
+      const total = { "name": "Total", "amount": 0 }
+      zeroBudget.push(total)
+      this.selectedBudget = zeroBudget
+    } else if (selectedMonthBudgets.length === 0 && this.budgetList.length > 0) {
       this.selectedBudget = this.budgetList[this.budgetList.length - 1].budget
     } else {
       this.selectedBudget = selectedMonthBudgets[selectedMonthBudgets.length - 1].budget
@@ -88,4 +101,10 @@ export class DashboardPage implements OnInit {
     this.populateLatestBudget();
   }
 
+  colorCondition(name: string) {
+    if (name === "Total") {
+      return false;
+    }
+    return true;
+  }
 }

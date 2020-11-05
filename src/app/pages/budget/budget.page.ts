@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { LoadingController, AlertController, ModalController } from '@ionic/angular';
 import { FirestoreService } from '../../services/data/firestore.service';
 import { map } from 'rxjs/operators';
-import { AuthenticationService } from "../../shared/authentication-service";
+import { AuthenticationService } from "../../services/auth/authentication-service";
 
 import { CategoryCreateComponent } from "../../components/category-create/category-create.component";
 

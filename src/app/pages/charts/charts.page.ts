@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Chart } from "chart.js";
-import { AuthenticationService } from "../../shared/authentication-service";
+import { AuthenticationService } from "../../services/auth/authentication-service";
 import { FirestoreService } from '../../services/data/firestore.service';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
