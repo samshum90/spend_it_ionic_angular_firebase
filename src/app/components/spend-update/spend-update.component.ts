@@ -25,7 +25,8 @@ export class SpendUpdateComponent implements OnInit {
       map((
         res: any) => res.categories)
     ).subscribe(res => {
-      this.categoriesList = res;
+      this.categoriesList = res,
+        this.updateValues()
     })
     this.editSpendForm = formBuilder.group({
       dateCreated: ['', Validators.required],

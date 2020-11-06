@@ -30,8 +30,9 @@
 
     <ion-item>
       <ion-label stacked>Category</ion-label>
-      <ion-select formControlName="category" placeholder="Select a category">
-        <ion-select-option *ngFor="let category of categoriesList">
+      <ion-select formControlName="category" placeholder="Select a category"
+        [selectedText]="editSpendForm.get('category').value">
+        <ion-select-option *ngFor="let category of categoriesList" [value]="category">
           {{category}}
         </ion-select-option>
       </ion-select>

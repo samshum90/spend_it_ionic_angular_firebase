@@ -50,55 +50,29 @@ export class CreatePage implements OnInit {
     const dateCreated = this.createForm.value.dateCreated;
     const name = this.createForm.value.name;
     const description = this.createForm.value.description;
-    const category = this.createForm.value.category;
     const amount = this.createForm.value.amount;
     const type = `${this.selectedRadioGroup}`;
 
-    if (this.selectedRadioGroup = "Income") {
-      this.firestoreService
-        .createIncome(
-          dateCreated,
-          name,
-          description,
-          amount,
-          type)
-        .then(
-          () => {
-            loading.dismiss().then(() => {
-              this.router.navigateByUrl('');
-            });
-          },
-          error => {
-            loading.dismiss().then(() => {
-              console.error(error);
-            });
-          }
-        );
-    } else {
-      this.firestoreService
-        .createSpend(
-          dateCreated,
-          name,
-          description,
-          category,
-          amount,
-          type)
-        .then(
-          () => {
-            loading.dismiss().then(() => {
-              this.createForm.reset();
-              this.updateDate();
-              this.router.navigateByUrl('');
-            });
-          },
-          error => {
-            loading.dismiss().then(() => {
-              console.error(error);
-            });
-          }
-        );
-    }
-
+    this.firestoreService
+      .createIncome(
+        dateCreated,
+        name,
+        description,
+        amount,
+        type)
+      .then(
+        () => {
+          this.updateDate();
+          loading.dismiss().then(() => {
+            this.router.navigateByUrl('');
+          });
+        },
+        error => {
+          loading.dismiss().then(() => {
+            console.error(error);
+          });
+        }
+      );
 
     return await loading.present();
   }
@@ -123,9 +97,8 @@ export class CreatePage implements OnInit {
         type)
       .then(
         () => {
+          this.updateDate();
           loading.dismiss().then(() => {
-            this.createForm.reset();
-            this.updateDate();
             this.router.navigateByUrl('');
           });
         },
