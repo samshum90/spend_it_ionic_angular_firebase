@@ -102,13 +102,6 @@ export class DashboardPage implements OnInit {
     this.populateLatestBudget();
   }
 
-  colorCondition(name: string) {
-    if (name === "Total") {
-      return false;
-    }
-    return true;
-  }
-
   calculateCurrentExpense() {
     this.currentExpenses = this.totalIncome - this.totalExpenditure
   }

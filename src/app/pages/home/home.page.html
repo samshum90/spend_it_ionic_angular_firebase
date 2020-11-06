@@ -22,7 +22,7 @@
       <div *ngIf="selectedSegment === 'all'">
         <ion-item *ngFor="let item of itemList">
           <ion-label routerLink="/tabs/spend-detail/{{item.id}}" *ngIf="!condition(item.type)"
-            [color]="condition(item.type) ? 'success' : 'danger'">
+            [color]="item.type === 'Income' ? 'success' : 'danger'">
             <h2>{{ item.name}}</h2>
             <p>Amount: £{{ item.amount }}</p>
             <p>Date: {{ item.dateCreated }}</p>
@@ -55,7 +55,8 @@
 
       <div *ngIf="selectedSegment === 'expenditure'">
         <ion-item *ngFor="let spend of spendList | async">
-          <ion-label routerLink="/tabs/spend-detail/{{spend.id}}">
+          <ion-label routerLink="/tabs/spend-detail/{{spend.id}}"
+            [color]="spend.type === 'Income' ? 'success' : 'danger'">
             <h2>{{ spend.name}}</h2>
             <p>Amount: £{{ spend.amount }}</p>
             <p>Date: {{ spend.dateCreated }}</p>
@@ -73,7 +74,8 @@
 
       <div *ngIf="selectedSegment === 'income'">
         <ion-item *ngFor="let income of incomeList | async">
-          <ion-label routerLink="/tabs/income-detail/{{income.id}}">
+          <ion-label routerLink="/tabs/income-detail/{{income.id}}"
+            [color]="income.type === 'Income' ? 'success' : 'danger'">
             <h2>{{ income.name}}</h2>
             <p>Amount: £{{ income.amount }}</p>
             <p>Date: {{ income.dateCreated }}</p>

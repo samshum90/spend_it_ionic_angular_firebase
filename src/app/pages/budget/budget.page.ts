@@ -41,7 +41,7 @@ export class BudgetPage implements OnInit {
 
   createForm(res) {
     res.map(x => {
-      this.budgetForm.addControl(`${x}`, this.formBuilder.control(x))
+      this.budgetForm.addControl(`${x}`, new FormControl('0.00'))
     })
   }
 

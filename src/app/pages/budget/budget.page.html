@@ -15,8 +15,8 @@
       <form [formGroup]="budgetForm" (submit)="createBudget()">
         <ion-item *ngFor="let category of budgetForm.controls | keyvalue">
           <ion-label stacked>{{category.key}} £</ion-label>
-          <ion-input formControlName="{{category.key}}" type="number" placeholder="Set a budget for this"
-            inputmode="decimal">
+          <ion-input class="ion-text-end" formControlName="{{category.key}}" type="number"
+            placeholder="Set a budget for this" inputmode="decimal">
           </ion-input>
           <ion-buttons slot="end">
             <ion-button (click)="deleteCategory(categoriesList.indexOf(category.key), category.key)">
