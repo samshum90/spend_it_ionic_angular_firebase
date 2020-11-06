@@ -33,9 +33,13 @@ export class HomePage {
   ) { }
 
   ngOnInit() {
-    this.spendList = this.firestoreService.getSpendList();
-    this.incomeList = this.firestoreService.getIncomeList();
+    this.getList()
     this.createItemList()
+  }
+
+  async getList() {
+    this.spendList = await this.firestoreService.getSpendList();
+    this.incomeList = await this.firestoreService.getIncomeList();
   }
 
   async createItemList() {
