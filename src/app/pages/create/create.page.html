@@ -18,7 +18,7 @@
 
   <form [formGroup]="createForm" (submit)="submitIncome()" *ngIf="selectedRadioGroup === 'Income'">
     <ion-item>
-      <ion-label stacked>Date Created</ion-label>
+      <ion-label stacked>Date</ion-label>
       <ion-datetime displayFormat="DD MMMM YYYY" formControlName="dateCreated">
       </ion-datetime>
       <!-- <ion-input formControlName="dateCreated" type="date">
@@ -28,7 +28,7 @@
     <ion-item>
       <ion-label stacked>Name</ion-label>
       <ion-input class="ion-text-end" slot="end" autocomplete autocapitalize formControlName="name" type="text"
-        placeholder="Give your expenditure a name">
+        placeholder="Give your income a name">
       </ion-input>
     </ion-item>
 
@@ -53,7 +53,7 @@
 
   <form [formGroup]="createForm" (submit)="submitExpenditure()" *ngIf="selectedRadioGroup === 'Expenditure'">
     <ion-item>
-      <ion-label stacked>Date Created</ion-label>
+      <ion-label stacked>Date</ion-label>
       <ion-datetime displayFormat="DD MMMM YYYY" formControlName="dateCreated">
       </ion-datetime>
       <!-- <ion-input formControlName="dateCreated" type="date">
@@ -61,7 +61,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Spend Name</ion-label>
+      <ion-label stacked>Name</ion-label>
       <ion-input class="ion-text-end" slot="end" autocomplete autocapitalize formControlName="name" type="text"
         placeholder="Give your expenditure a name">
       </ion-input>
@@ -82,7 +82,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Spend Description</ion-label>
+      <ion-label stacked>Description</ion-label>
       <ion-textarea class="ion-text-end" slot="end" spellcheck autoGrow formControlName="description" type="text"
         placeholder="Add a description">
       </ion-textarea>

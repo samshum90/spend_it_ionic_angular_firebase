@@ -67,8 +67,8 @@ export class BudgetPage implements OnInit {
       )
       .then(
         () => {
+          this.budgetForm.reset();
           loading.dismiss().then(() => {
-            this.budgetForm.reset();
             this.router.navigateByUrl('tabs/dashboard');
           });
         },
