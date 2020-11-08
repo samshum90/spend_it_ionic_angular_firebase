@@ -105,4 +105,13 @@ export class DashboardPage implements OnInit {
   calculateCurrentExpense() {
     this.currentExpenses = this.totalIncome - this.totalExpenditure
   }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.populateExpenditureTotal();
+      this.populateIncomeTotal();
+      this.calculateCurrentExpense();
+      event.target.complete();
+    }, 2000);
+  }
 }

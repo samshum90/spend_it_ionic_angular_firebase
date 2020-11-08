@@ -67,7 +67,6 @@ export class ChartsPage implements OnInit {
   }
 
   handleDateChange() {
-    this.populateLatestBudget();
     this.populateExpenditureChart();
     this.populateIncomeTotal();
   }
@@ -288,6 +287,7 @@ export class ChartsPage implements OnInit {
   }
 
   populateExpenditureChart() {
+    this.populateLatestBudget();
     const labels = [];
     const expenditure = [];
     const budget = [];
@@ -376,4 +376,11 @@ export class ChartsPage implements OnInit {
     }
   }
 
+  doRefresh(event) {
+    setTimeout(() => {
+      this.populateExpenditureChart();
+      this.populateIncomeTotal();
+      event.target.complete();
+    }, 2000);
+  }
 }
