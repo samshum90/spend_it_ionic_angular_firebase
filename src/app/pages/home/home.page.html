@@ -8,6 +8,17 @@
 <ion-content fullscreen class="ion-padding">
   <ion-card>
     <ion-card-content>
+      <ion-item lines="none">
+        <ion-label stacked>Select Month and Year</ion-label>
+        <ion-datetime placeholder="All" displayFormat="MMMM YYYY" [(ngModel)]="dateSelected"
+          (ngModelChange)="handleDateChange()">
+        </ion-datetime>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
       <ion-segment value="all" (ionChange)="segmentChanged($event)">
         <ion-segment-button value="all">
           <ion-label>All</ion-label>

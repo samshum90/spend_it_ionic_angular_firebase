@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { FirestoreService } from '../../services/data/firestore.service';
 import { Spend } from '../../shared/models/spend.interface';
 import { AuthenticationService } from "../../services/auth/authentication-service";
@@ -20,6 +20,7 @@ import { IonInfiniteScroll } from '@ionic/angular';
 })
 export class HomePage {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+  public dateSelected: string;
   public selectedSegment: any = 'all'
   public spendList: Observable<Spend[]>;
   public incomeList: Observable<Income[]>;
@@ -33,19 +34,28 @@ export class HomePage {
   ) { }
 
   ngOnInit() {
-    this.getList()
-    this.createItemList()
+    // this.getList()
+    this.createItemList();
   }
 
-  async getList() {
-    this.spendList = await this.firestoreService.getSpendList();
-    this.incomeList = await this.firestoreService.getIncomeList();
+  ngOnDestroy() {
+    this.dateSelected = null;
   }
+
+  // async getList() {
+  //   this.spendList = await this.firestoreService.getSpendList();
+  //   this.incomeList = await this.firestoreService.getIncomeList();
+  // }
 
   async createItemList() {
-    const spend = this.firestoreService.getSpendList();
-    const income = this.firestoreService.getIncomeList();
-    combineLatest(spend, income).pipe(map((item: any) => item.flat()
+    if (!this.dateSelected) {
+      this.spendList = await this.firestoreService.getSpendList();
+      this.incomeList = await this.firestoreService.getIncomeList();
+    } else {
+      this.spendList = await this.firestoreService.getSpendList().pipe(map((spendArray: Spend[]) => spendArray.filter((spend: Spend) => spend.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))));
+      this.incomeList = await this.firestoreService.getIncomeList().pipe(map((incomeArray: Income[]) => incomeArray.filter((income: Income) => income.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))));
+    }
+    combineLatest(this.spendList, this.incomeList).pipe(map((item: any) => item.flat()
       .sort((a: any, b: any) => <any>moment(a.dateCreated).format('YYYYMMDD') - <any>moment(b.dateCreated).format('YYYYMMDD'))))
       .subscribe((res: any) => this.itemList = res)
   }
@@ -140,5 +150,9 @@ export class HomePage {
         event.target.disabled = true;
       }
     }, 500);
+  }
+
+  handleDateChange() {
+    this.createItemList()
   }
 }
