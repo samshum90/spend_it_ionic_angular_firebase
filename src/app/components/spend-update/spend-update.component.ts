@@ -53,7 +53,7 @@ export class SpendUpdateComponent implements OnInit {
 
   async updateSpend() {
     const loading = await this.loadingCtrl.create();
-    const dateCreated = this.editSpendForm.value.dateCreated;
+    const dateCreated = this.editSpendForm.value.dateCreated.substr(0, 10);;
     const name = this.editSpendForm.value.name;
     const description = this.editSpendForm.value.description;
     const category = this.editSpendForm.value.category;

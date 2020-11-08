@@ -42,7 +42,7 @@ export class IncomeUpdateComponent implements OnInit {
 
   async updateIncome() {
     const loading = await this.loadingCtrl.create();
-    const dateCreated = this.editIncomeForm.value.dateCreated;
+    const dateCreated = this.editIncomeForm.value.dateCreated.substr(0, 10);;
     const name = this.editIncomeForm.value.name;
     const description = this.editIncomeForm.value.description;
     const amount = this.editIncomeForm.value.amount;

@@ -34,24 +34,22 @@ export class CreatePage implements OnInit {
       description: [''],
       category: [''],
       amount: ['', Validators.required],
-      type: ['', Validators.required],
     });
   }
 
   ngOnInit() {
     this.updateDate()
     this.firestoreService.getCategoriesList()
-    this.selectedRadioGroup = "Expenditure"
   }
 
   async submitIncome() {
     const loading = await this.loadingCtrl.create();
 
-    const dateCreated = this.createForm.value.dateCreated;
+    const dateCreated = this.createForm.value.dateCreated.substr(0, 10);
     const name = this.createForm.value.name;
     const description = this.createForm.value.description;
     const amount = this.createForm.value.amount;
-    const type = `${this.selectedRadioGroup}`;
+    const type = `Income`;
 
     this.firestoreService
       .createIncome(
@@ -80,12 +78,12 @@ export class CreatePage implements OnInit {
   async submitExpenditure() {
     const loading = await this.loadingCtrl.create();
 
-    const dateCreated = this.createForm.value.dateCreated;
+    const dateCreated = this.createForm.value.dateCreated.substr(0, 10);
     const name = this.createForm.value.name;
     const description = this.createForm.value.description;
     const category = this.createForm.value.category;
-    const amount = this.createForm.value.amount;
-    const type = this.createForm.value.type;
+    const amount = this.createForm.value.amount.toFixed(2);
+    const type = "Expenditure";
 
     this.firestoreService
       .createSpend(
@@ -114,13 +112,13 @@ export class CreatePage implements OnInit {
 
   updateDate() {
     let today = new Date().toISOString().substr(0, 10);
+    this.selectedRadioGroup = "Expenditure"
     this.createForm.patchValue({
       dateCreated: today,
       name: '',
       description: '',
       category: '',
-      amount: '.00',
-      type: `${this.selectedRadioGroup}`
+      amount: '',
     })
   }
 

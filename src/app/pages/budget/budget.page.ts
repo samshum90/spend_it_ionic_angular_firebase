@@ -51,7 +51,7 @@ export class BudgetPage implements OnInit {
     const budget =
       // Object.keys(this.budgetForm.value).reduce((arr, key) => arr.concat(this.budgetForm.value[key]), []);
       Object.keys(this.budgetForm.value).reduce((arr, key) => {
-        const subObj = { "name": key, "amount": this.budgetForm.value[key] };
+        const subObj = { "name": key, "amount": this.budgetForm.value[key].toFixed(2) };
         return arr.concat(subObj)
       }, []);
     // const budget = [];

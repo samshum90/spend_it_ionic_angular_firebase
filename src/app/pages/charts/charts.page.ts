@@ -227,11 +227,11 @@ export class ChartsPage implements OnInit {
     });
   }
   populateYearlyChart() {
+    this.populateLatestBudget();
     const labels = [];
     const expenditure = [];
     const budget = [];
     const income = [];
-
 
     for (let i = 0; i < 12; i++) {
       const monthlyExpenditure = this.spendList.filter(spend => moment(spend.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
@@ -380,6 +380,7 @@ export class ChartsPage implements OnInit {
     setTimeout(() => {
       this.populateExpenditureChart();
       this.populateIncomeTotal();
+      this.populateYearlyChart();
       event.target.complete();
     }, 2000);
   }
