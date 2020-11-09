@@ -50,14 +50,14 @@ export class HomePage {
   async createItemList() {
     if (!this.dateSelected) {
       this.spendList = await this.firestoreService.getSpendList();
-      this.incomeList = await this.firestoreService.getIncomeList();
+      this.incomeList = await this.firestoreService.getIncomeList()
     } else {
       this.spendList = await this.firestoreService.getSpendList().pipe(map((spendArray: Spend[]) => spendArray.filter((spend: Spend) => spend.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))));
       this.incomeList = await this.firestoreService.getIncomeList().pipe(map((incomeArray: Income[]) => incomeArray.filter((income: Income) => income.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))));
     }
     combineLatest(this.spendList, this.incomeList).pipe(map((item: any) => item.flat()
       .sort((a: any, b: any) => <any>moment(a.dateCreated).format('YYYYMMDD') - <any>moment(b.dateCreated).format('YYYYMMDD'))))
-      .subscribe((res: any) => this.itemList = res)
+      .subscribe((res: any) => this.itemList = res.reverse())
   }
 
   async deleteSpend(spendId: string, name: string): Promise<void> {
