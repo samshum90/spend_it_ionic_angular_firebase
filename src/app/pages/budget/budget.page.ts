@@ -55,7 +55,7 @@ export class BudgetPage implements OnInit {
 
 
   async createBudget() {
-    let today = new Date().toISOString().substr(0, 10);
+    const today = new Date().toISOString().substr(0, 10);
     const loading = await this.loadingCtrl.create();
     const budget =
       // Object.keys(this.budgetForm.value).reduce((arr, key) => arr.concat(this.budgetForm.value[key]), []);

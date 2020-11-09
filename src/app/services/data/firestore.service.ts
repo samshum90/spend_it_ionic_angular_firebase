@@ -16,7 +16,7 @@ export class FirestoreService {
 
   createCategories(userId: string): Promise<void> {
     // const id = this.firestore.createId();
-    const categories = ["Food", "Eating Out", "Personal", "Entertainment", "Service", "Bills", "Other"]
+    const categories = ["Food", "Eating Out", "Personal", "Entertainment", "Service", "Bills", "Savings", "Other"]
     return this.firestore.collection('users').doc(`${userId}`).set({
       // id,
       categories
