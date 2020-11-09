@@ -56,10 +56,10 @@ export class DashboardPage implements OnInit {
       .reduce((total, price) => total + price, 0).toFixed(2);
   }
 
-  populateExpenditureTotal() {
+  async populateExpenditureTotal() {
     const output = []
     const selectedSpends = this.spendList.filter(income => income.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
-    for (let i = 0; i < this.categoriesList.length; i++) {
+    for (let i = 0; i < await this.categoriesList.length; i++) {
       const total = selectedSpends.filter(spend => spend.category === this.categoriesList[i])
         .map(spend => spend.amount).reduce((total, amount) => total + amount, 0).toFixed(2);
       const name = this.categoriesList[i];

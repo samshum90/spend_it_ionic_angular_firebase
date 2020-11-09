@@ -82,7 +82,7 @@ export class CreatePage implements OnInit {
     const name = this.createForm.value.name;
     const description = this.createForm.value.description;
     const category = this.createForm.value.category;
-    const amount = this.createForm.value.amount.toFixed(2);
+    const amount = this.createForm.value.amount;
     const type = "Expenditure";
 
     this.firestoreService
