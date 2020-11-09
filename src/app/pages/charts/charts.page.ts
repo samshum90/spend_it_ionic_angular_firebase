@@ -234,11 +234,18 @@ export class ChartsPage implements OnInit {
     const income = [];
 
     for (let i = 0; i < 12; i++) {
-      const monthlyExpenditure = this.spendList.filter(spend => moment(spend.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
-        .map(spend => spend.amount).reduce((total, amount) => total + amount, 0);
+      if (!!this.spendList) {
+        const monthlyExpenditure = this.spendList.filter(spend => moment(spend.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
+          .map(spend => spend.amount).reduce((total, amount) => total + amount, 0);
+        expenditure.unshift(monthlyExpenditure);
+      }
       const label = moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("MMM-YYYY");
-      const monthlyIncome = this.incomeList.filter(income => moment(income.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
-        .map(income => income.amount).reduce((total, amount) => total + amount, 0);
+      labels.unshift(label);
+      if (!!this.incomeList) {
+        const monthlyIncome = this.incomeList.filter(income => moment(income.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
+          .map(income => income.amount).reduce((total, amount) => total + amount, 0);
+        income.unshift(monthlyIncome);
+      }
       const monthlyBudget = this.budgetList.filter(budget => moment(budget.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"));
       function findNullBudget(monthlyBudget) {
         if (monthlyBudget.length === 0) {
@@ -246,9 +253,6 @@ export class ChartsPage implements OnInit {
         }
         return monthlyBudget[monthlyBudget.length - 1].budget.map(category => parseInt(category.amount)).reduce((total, amount) => total + amount, 0);
       }
-      expenditure.unshift(monthlyExpenditure);
-      labels.unshift(label);
-      income.unshift(monthlyIncome);
       budget.unshift(findNullBudget(monthlyBudget));
     }
     this.yearlyLabels = labels;
@@ -291,14 +295,19 @@ export class ChartsPage implements OnInit {
     const labels = [];
     const expenditure = [];
     const budget = [];
-    const selectedSpends = this.spendList.filter(income => income.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
+    if (!!this.spendList) {
+      var selectedSpends = this.spendList.filter(spend => spend.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
+    }
     for (let i = 0; i < this.categoriesList.length; i++) {
-      const total = selectedSpends.filter(spend => spend.category === this.categoriesList[i])
-        .map(spend => spend.amount).reduce((total, amount) => total + amount, 0)
+      if (!!selectedSpends) {
+        const total = selectedSpends.filter(spend => spend.category === this.categoriesList[i])
+          .map(spend => spend.amount).reduce((total, amount) => total + amount, 0)
+        expenditure.push(total)
+      }
       const name = this.categoriesList[i]
-      const monthlyBudget = this.selectedBudget.find(category => category.name === this.categoriesList[i])
-      expenditure.push(total)
       labels.push(name)
+
+      const monthlyBudget = this.selectedBudget.find(category => category.name === this.categoriesList[i])
       function budgetAmount(monthlyBudget) {
         if (!monthlyBudget) {
           return null;
