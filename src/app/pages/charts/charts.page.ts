@@ -57,13 +57,13 @@ export class ChartsPage implements OnInit {
     this.firestoreService.getSpendList().subscribe((res: any[]) => {
       this.spendList = res,
         this.populateExpenditureChart(),
-        this.populateYearlyChart(),
-        this.lineChartMethod()
+        this.populateYearlyChart()
     });
   }
 
   ngOnInit() {
     this.chartMethod();
+    this.lineChartMethod();
   }
 
   handleDateChange() {
@@ -264,6 +264,13 @@ export class ChartsPage implements OnInit {
     this.lineChartExpenditureTotals = expenditure.slice(6, 13);
     this.lineChartIncomeTotals = income.slice(6, 13);
     this.lineChartBudgetTotals = budget.slice(6, 13);
+
+    this.lineChart.data.datasets[0].data = this.lineChartExpenditureTotals;
+    this.lineChart.data.datasets[1].data = this.lineChartIncomeTotals;
+    this.lineChart.data.datasets[2].data = this.lineChartBudgetTotals;
+    this.lineChart.data.labels = this.lineChartLabels;
+    this.lineChart.update();
+
   }
 
 
