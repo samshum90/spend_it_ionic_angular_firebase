@@ -8,28 +8,41 @@
 <ion-content class="padding">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Add a budget goal for the month </ion-card-title>
+      <ion-card-title>
+        Add a budget goal for the month
+      </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <form [formGroup]="budgetForm" (submit)="createBudget()">
-        <ion-item *ngFor="let category of budgetForm.controls | keyvalue">
-          <ion-label stacked>{{category.key}} £</ion-label>
-          <ion-input class="ion-text-end" formControlName="{{category.key}}" type="number"
-            placeholder="Set a budget for this" inputmode="decimal">
-          </ion-input>
-          <ion-buttons slot="end">
-            <ion-button (click)="deleteCategory(categoriesList.indexOf(category.key), category.key)">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
-
+        <ion-buttons slot="end">
+          <ion-button (click)="toggleReorder()" size="small">
+            Reorder
+          </ion-button>
+        </ion-buttons>
+        <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="true">
+          <ion-item *ngFor="let category of categoriesList ">
+            <ion-label stacked>{{category}} £</ion-label>
+            <ion-input class="ion-text-end" formControlName="{{category}}" type="number"
+              placeholder="Set a budget for this" inputmode="decimal">
+            </ion-input>
+            <ion-buttons slot="end">
+              <ion-button (click)="deleteCategory(categoriesList.indexOf(category.key), category.key)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+              <ion-reorder slot="end"></ion-reorder>
+            </ion-buttons>
+          </ion-item>
+        </ion-reorder-group>
         <ion-button expand="block" type="submit">
           Submit
         </ion-button>
-      </form>
 
+        <ion-button *ngIf="!disableOrder" expand="block" type="button" (click)="updateCategory()">
+          Save Order
+        </ion-button>
+
+      </form>
     </ion-card-content>
   </ion-card>
 

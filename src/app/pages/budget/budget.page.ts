@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonReorderGroup } from '@ionic/angular';
+import { ItemReorderEventDetail } from '@ionic/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LoadingController, AlertController, ModalController } from '@ionic/angular';
@@ -14,6 +16,8 @@ import { CategoryCreateComponent } from "../../components/category-create/catego
   styleUrls: ['./budget.page.scss'],
 })
 export class BudgetPage implements OnInit {
+  @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
+  public disableOrder: boolean = true;
   public categoriesList: any[];
   public budgetForm: FormGroup;
   constructor(
@@ -41,9 +45,14 @@ export class BudgetPage implements OnInit {
 
   createForm(res) {
     res.map(x => {
-      this.budgetForm.addControl(`${x}`, new FormControl('0.00'))
+      this.budgetForm.addControl(`${x}`, new FormControl('0'))
     })
   }
+
+  updateForm() {
+
+  }
+
 
   async createBudget() {
     let today = new Date().toISOString().substr(0, 10);
@@ -51,7 +60,7 @@ export class BudgetPage implements OnInit {
     const budget =
       // Object.keys(this.budgetForm.value).reduce((arr, key) => arr.concat(this.budgetForm.value[key]), []);
       Object.keys(this.budgetForm.value).reduce((arr, key) => {
-        const subObj = { "name": key, "amount": this.budgetForm.value[key].toFixed(2) };
+        const subObj = { "name": key, "amount": this.budgetForm.value[key] };
         return arr.concat(subObj)
       }, []);
     // const budget = [];
@@ -59,7 +68,6 @@ export class BudgetPage implements OnInit {
     //   budget.push(
     //     Object.assign(this.budgetForm.value[i], { name: i }));
     // };
-    console.log(budget, this.budgetForm)
     this.firestoreService
       .createBudget(
         budget,
@@ -119,4 +127,32 @@ export class BudgetPage implements OnInit {
     await alert.present();
   }
 
+  doReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+    this.categoriesList = ev.detail.complete(this.categoriesList);
+  }
+
+  toggleReorder() {
+    this.reorderGroup.disabled = !this.reorderGroup.disabled;
+    this.disableOrder = !this.disableOrder
+  }
+
+  async updateCategory() {
+    const loading = await this.loadingCtrl.create();
+    this.firestoreService
+      .updateCategories(
+        this.categoriesList
+      )
+      .then(
+        () => {
+          this.toggleReorder();
+          loading.dismiss();
+        },
+        error => {
+          loading.dismiss().then(() => {
+            console.error(error);
+          });
+        }
+      );
+    return await loading.present();
+  }
 }

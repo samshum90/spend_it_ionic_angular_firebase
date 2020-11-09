@@ -81,8 +81,8 @@ export class ChartsPage implements OnInit {
             label: "Expenditure",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'rgba(255, 99, 132, 0.8)',
-            borderColor: "rgba(255, 99, 132, 1)",
+            backgroundColor: "rgba(255, 99, 132, 0.7)",
+            borderColor: "rgba(255, 99, 132, 0.7)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -103,8 +103,8 @@ export class ChartsPage implements OnInit {
             label: "Income",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: "rgba(34, 136, 51,0.8)",
-            borderColor: "rgba(34, 136, 51,1)",
+            backgroundColor: "rgba(34, 136, 51, 0.7)",
+            borderColor: "rgba(34, 136, 51, 0.7)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -125,8 +125,8 @@ export class ChartsPage implements OnInit {
             label: "Budget",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: "rgba(238, 119, 52, 0.8)",
-            borderColor: "rgba(238, 119, 52,1)",
+            backgroundColor: "rgba(238, 119, 52, 0.7)",
+            borderColor: "rgba(238, 119, 52, 0.7)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -239,12 +239,12 @@ export class ChartsPage implements OnInit {
       const label = moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("MMM-YYYY");
       const monthlyIncome = this.incomeList.filter(income => moment(income.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
         .map(income => income.amount).reduce((total, amount) => total + amount, 0);
-      const monthlyBudget = this.budgetList.filter(budget => moment(budget.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
+      const monthlyBudget = this.budgetList.filter(budget => moment(budget.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"));
       function findNullBudget(monthlyBudget) {
         if (monthlyBudget.length === 0) {
           return 0;
         }
-        return monthlyBudget[monthlyBudget.length - 1].budget.map(category => category.amount).reduce((total, amount) => total + amount, 0);
+        return monthlyBudget[monthlyBudget.length - 1].budget.map(category => parseInt(category.amount)).reduce((total, amount) => total + amount, 0);
       }
       expenditure.unshift(monthlyExpenditure);
       labels.unshift(label);
@@ -324,7 +324,7 @@ export class ChartsPage implements OnInit {
   addTotals() {
     if (this.expenditureLabels.length === this.categoriesList.length) {
       const expenditureCompleteTotal = this.expenditureTotals.reduce((total, amount) => total + amount, 0)
-      const budgetCompleteTotal = this.budgetTotals.reduce((total, amount) => total + amount, 0)
+      const budgetCompleteTotal = this.budgetTotals.reduce((total, amount) => total + parseInt(amount), 0)
       this.barChart.data.datasets[0].data.unshift(expenditureCompleteTotal);
       this.barChart.data.datasets[1].data.unshift(budgetCompleteTotal);
       this.barChart.data.labels.unshift("Total");
