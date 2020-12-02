@@ -24,7 +24,7 @@ export class DashboardPage implements OnInit {
   public totalIncome: string;
   public expenditureTotals: any[];
   public totalExpenditure: string;
-  public currentExpenses: string;
+  public currentExpenses: any;
   public selectedBudget: any[];
   constructor(
     public authService: AuthenticationService,
