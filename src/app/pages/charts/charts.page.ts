@@ -57,19 +57,19 @@ export class ChartsPage implements OnInit {
     this.firestoreService.getSpendList().subscribe((res: any[]) => {
       this.spendList = res,
         this.populateExpenditureChart(),
-        this.populateYearlyChart(),
-        this.lineChartMethod()
+        this.populateYearlyChart()
     });
   }
 
   ngOnInit() {
     this.chartMethod();
+    this.lineChartMethod();
   }
 
   handleDateChange() {
-    this.populateLatestBudget();
     this.populateExpenditureChart();
     this.populateIncomeTotal();
+    this.populateYearlyChart();
   }
 
   lineChartMethod() {
@@ -82,8 +82,8 @@ export class ChartsPage implements OnInit {
             label: "Expenditure",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'rgba(255, 99, 132, 0.8)',
-            borderColor: "rgba(255, 99, 132, 1)",
+            backgroundColor: "rgba(255, 99, 132, 0.7)",
+            borderColor: "rgba(255, 99, 132, 0.7)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -104,8 +104,8 @@ export class ChartsPage implements OnInit {
             label: "Income",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: "rgba(34, 136, 51,0.8)",
-            borderColor: "rgba(34, 136, 51,1)",
+            backgroundColor: "rgba(34, 136, 51, 0.7)",
+            borderColor: "rgba(34, 136, 51, 0.7)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -126,8 +126,8 @@ export class ChartsPage implements OnInit {
             label: "Budget",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: "rgba(238, 119, 52, 0.8)",
-            borderColor: "rgba(238, 119, 52,1)",
+            backgroundColor: "rgba(238, 119, 52, 0.7)",
+            borderColor: "rgba(238, 119, 52, 0.7)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -165,6 +165,7 @@ export class ChartsPage implements OnInit {
               "rgba(75, 192, 192, 0.7)",
               "rgba(153, 102, 255, 0.7)",
               "rgba(255, 159, 64, 0.7)",
+              "rgba(0,63,92, 0.7)",
             ],
             borderColor: [
               "rgba(255, 99, 132, 1)",
@@ -173,6 +174,7 @@ export class ChartsPage implements OnInit {
               "rgba(75, 192, 192, 1)",
               "rgba(153, 102, 255, 1)",
               "rgba(255, 159, 64, 1)",
+              "rgba(0,63,92, 1)",
             ],
             borderWidth: 1
           },
@@ -213,6 +215,7 @@ export class ChartsPage implements OnInit {
               "rgba(75, 192, 192, 0.8)",
               "rgba(153, 102, 255, 0.8)",
               "rgba(255, 159, 64, 0.8)",
+              "rgba(0,63,92, 0.8)",
             ],
             hoverBackgroundColor: [
               "rgba(255, 99, 132, 1)",
@@ -221,6 +224,7 @@ export class ChartsPage implements OnInit {
               "rgba(75, 192, 192, 1)",
               "rgba(153, 102, 255, 1)",
               "rgba(255, 159, 64, 1)",
+              "rgba(0,63,92, 1)",
             ]
           }
         ]
@@ -228,28 +232,32 @@ export class ChartsPage implements OnInit {
     });
   }
   populateYearlyChart() {
+    this.populateLatestBudget();
     const labels = [];
     const expenditure = [];
     const budget = [];
     const income = [];
 
-
     for (let i = 0; i < 12; i++) {
-      const monthlyExpenditure = this.spendList.filter(spend => moment(spend.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
-        .map(spend => spend.amount).reduce((total, amount) => total + amount, 0);
+      if (!!this.spendList) {
+        const monthlyExpenditure = this.spendList.filter(spend => moment(spend.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
+          .map(spend => spend.amount).reduce((total, amount) => total + amount, 0);
+        expenditure.unshift(monthlyExpenditure);
+      }
       const label = moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("MMM-YYYY");
-      const monthlyIncome = this.incomeList.filter(income => moment(income.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
-        .map(income => income.amount).reduce((total, amount) => total + amount, 0);
-      const monthlyBudget = this.budgetList.filter(budget => moment(budget.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
+      labels.unshift(label);
+      if (!!this.incomeList) {
+        const monthlyIncome = this.incomeList.filter(income => moment(income.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"))
+          .map(income => income.amount).reduce((total, amount) => total + amount, 0);
+        income.unshift(monthlyIncome);
+      }
+      const monthlyBudget = this.budgetList.filter(budget => moment(budget.dateCreated.substr(0, 7)).format("YYYY-MM") === moment(this.dateSelected.substr(0, 7)).subtract(i, "month").format("YYYY-MM"));
       function findNullBudget(monthlyBudget) {
         if (monthlyBudget.length === 0) {
           return 0;
         }
-        return monthlyBudget[monthlyBudget.length - 1].budget.map(category => category.amount).reduce((total, amount) => total + amount, 0);
+        return monthlyBudget[monthlyBudget.length - 1].budget.map(category => parseInt(category.amount)).reduce((total, amount) => total + amount, 0);
       }
-      expenditure.unshift(monthlyExpenditure);
-      labels.unshift(label);
-      income.unshift(monthlyIncome);
       budget.unshift(findNullBudget(monthlyBudget));
     }
     this.yearlyLabels = labels;
@@ -261,6 +269,13 @@ export class ChartsPage implements OnInit {
     this.lineChartExpenditureTotals = expenditure.slice(6, 13);
     this.lineChartIncomeTotals = income.slice(6, 13);
     this.lineChartBudgetTotals = budget.slice(6, 13);
+
+    this.lineChart.data.datasets[0].data = this.lineChartExpenditureTotals;
+    this.lineChart.data.datasets[1].data = this.lineChartIncomeTotals;
+    this.lineChart.data.datasets[2].data = this.lineChartBudgetTotals;
+    this.lineChart.data.labels = this.lineChartLabels;
+    this.lineChart.update();
+
   }
 
 
@@ -288,17 +303,23 @@ export class ChartsPage implements OnInit {
   }
 
   populateExpenditureChart() {
+    this.populateLatestBudget();
     const labels = [];
     const expenditure = [];
     const budget = [];
-    const selectedSpends = this.spendList.filter(income => income.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
+    if (!!this.spendList) {
+      var selectedSpends = this.spendList.filter(spend => spend.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
+    }
     for (let i = 0; i < this.categoriesList.length; i++) {
-      const total = selectedSpends.filter(spend => spend.category === this.categoriesList[i])
-        .map(spend => spend.amount).reduce((total, amount) => total + amount, 0)
+      if (!!selectedSpends) {
+        const total = selectedSpends.filter(spend => spend.category === this.categoriesList[i])
+          .map(spend => spend.amount).reduce((total, amount) => total + amount, 0)
+        expenditure.push(total)
+      }
       const name = this.categoriesList[i]
-      const monthlyBudget = this.selectedBudget.find(category => category.name === this.categoriesList[i])
-      expenditure.push(total)
       labels.push(name)
+
+      const monthlyBudget = this.selectedBudget.find(category => category.name === this.categoriesList[i])
       function budgetAmount(monthlyBudget) {
         if (!monthlyBudget) {
           return null;
@@ -324,7 +345,7 @@ export class ChartsPage implements OnInit {
   addTotals() {
     if (this.expenditureLabels.length === this.categoriesList.length) {
       const expenditureCompleteTotal = this.expenditureTotals.reduce((total, amount) => total + amount, 0)
-      const budgetCompleteTotal = this.budgetTotals.reduce((total, amount) => total + amount, 0)
+      const budgetCompleteTotal = this.budgetTotals.reduce((total, amount) => total + parseInt(amount), 0)
       this.barChart.data.datasets[0].data.unshift(expenditureCompleteTotal);
       this.barChart.data.datasets[1].data.unshift(budgetCompleteTotal);
       this.barChart.data.labels.unshift("Total");
@@ -376,4 +397,12 @@ export class ChartsPage implements OnInit {
     }
   }
 
+  doRefresh(event) {
+    setTimeout(() => {
+      this.populateExpenditureChart();
+      this.populateIncomeTotal();
+      this.populateYearlyChart();
+      event.target.complete();
+    }, 2000);
+  }
 }

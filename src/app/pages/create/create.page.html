@@ -10,7 +10,7 @@
 
 <ion-content fullscreen>
   <ion-toolbar>
-    <ion-segment value="Expenditure" (ionChange)="radioGroupChange($event)">
+    <ion-segment value="Expenditure" (ionChange)="radioGroupChange($event)" [(ngModel)]="selectedRadioGroup">
       <ion-segment-button value="Expenditure">Expenditure</ion-segment-button>
       <ion-segment-button value="Income">Income</ion-segment-button>
     </ion-segment>

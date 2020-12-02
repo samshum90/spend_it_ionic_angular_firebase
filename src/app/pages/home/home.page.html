@@ -8,6 +8,17 @@
 <ion-content fullscreen class="ion-padding">
   <ion-card>
     <ion-card-content>
+      <ion-item lines="none">
+        <ion-label stacked>Select Month and Year</ion-label>
+        <ion-datetime placeholder="All" displayFormat="MMMM YYYY" [(ngModel)]="dateSelected"
+          (ngModelChange)="handleDateChange()">
+        </ion-datetime>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
       <ion-segment value="all" (ionChange)="segmentChanged($event)">
         <ion-segment-button value="all">
           <ion-label>All</ion-label>
@@ -24,7 +35,7 @@
           <ion-label routerLink="/tabs/spend-detail/{{item.id}}" *ngIf="!condition(item.type)"
             [color]="item.type === 'Income' ? 'success' : 'danger'">
             <h2>{{ item.name}}</h2>
-            <p>Amount: £{{ item.amount }}</p>
+            <p>Amount: £{{ item.amount.toFixed(2) }}</p>
             <p>Date: {{ item.dateCreated }}</p>
           </ion-label>
           <ion-buttons slot="end" *ngIf="!condition(item.type)">
@@ -39,7 +50,7 @@
           <ion-label routerLink="/tabs/income-detail/{{item.id}}" *ngIf="condition(item.type)"
             [color]="condition(item.type) ? 'success' : 'danger'">
             <h2>{{ item.name}}</h2>
-            <p>Amount: £{{ item.amount }}</p>
+            <p>Amount: £{{ item.amount.toFixed(2) }}</p>
             <p>Date: {{ item.dateCreated }}</p>
           </ion-label>
           <ion-buttons slot="end" *ngIf="condition(item.type)">
@@ -54,11 +65,11 @@
       </div>
 
       <div *ngIf="selectedSegment === 'expenditure'">
-        <ion-item *ngFor="let spend of spendList | async">
+        <ion-item *ngFor="let spend of (spendList | async)?.slice().reverse()">
           <ion-label routerLink="/tabs/spend-detail/{{spend.id}}"
             [color]="spend.type === 'Income' ? 'success' : 'danger'">
             <h2>{{ spend.name}}</h2>
-            <p>Amount: £{{ spend.amount }}</p>
+            <p>Amount: £{{ spend.amount.toFixed(2) }}</p>
             <p>Date: {{ spend.dateCreated }}</p>
           </ion-label>
           <ion-buttons slot="end">
@@ -73,11 +84,11 @@
       </div>
 
       <div *ngIf="selectedSegment === 'income'">
-        <ion-item *ngFor="let income of incomeList | async">
+        <ion-item *ngFor="let income of (incomeList | async)?.slice().reverse()">
           <ion-label routerLink="/tabs/income-detail/{{income.id}}"
             [color]="income.type === 'Income' ? 'success' : 'danger'">
             <h2>{{ income.name}}</h2>
-            <p>Amount: £{{ income.amount }}</p>
+            <p>Amount: £{{ income.amount.toFixed(2) }}</p>
             <p>Date: {{ income.dateCreated }}</p>
           </ion-label>
           <ion-buttons slot="end">

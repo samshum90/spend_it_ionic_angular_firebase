@@ -21,10 +21,10 @@ export class DashboardPage implements OnInit {
   public incomeList: Income[];
   public categoriesList: any[];
   public budgetList: any[];
-  public totalIncome: number;
+  public totalIncome: string;
   public expenditureTotals: any[];
-  public totalExpenditure: number;
-  public currentExpenses: number;
+  public totalExpenditure: string;
+  public currentExpenses: string;
   public selectedBudget: any[];
   constructor(
     public authService: AuthenticationService,
@@ -53,25 +53,25 @@ export class DashboardPage implements OnInit {
   populateIncomeTotal() {
     this.totalIncome = this.incomeList.filter(income => income.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
       .map((income: Income) => income.amount)
-      .reduce((total, price) => total + price, 0)
+      .reduce((total, price) => total + price, 0).toFixed(2);
   }
 
-  populateExpenditureTotal() {
+  async populateExpenditureTotal() {
     const output = []
     const selectedSpends = this.spendList.filter(income => income.dateCreated.substr(0, 7) === this.dateSelected.substr(0, 7))
-    for (let i = 0; i < this.categoriesList.length; i++) {
+    for (let i = 0; i < await this.categoriesList.length; i++) {
       const total = selectedSpends.filter(spend => spend.category === this.categoriesList[i])
-        .map(spend => spend.amount).reduce((total, amount) => total + amount, 0)
-      const name = this.categoriesList[i]
+        .map(spend => spend.amount).reduce((total, amount) => total + amount, 0).toFixed(2);
+      const name = this.categoriesList[i];
       const object = {
         name,
         total
-      }
-      output.push(object)
+      };
+      output.push(object);
     }
     this.expenditureTotals = output
 
-    this.totalExpenditure = output.map(spend => spend.total).reduce((total, amount) => total + amount, 0)
+    this.totalExpenditure = output.map(spend => parseInt(spend.total)).reduce((total, amount) => total + amount, 0).toFixed(2);
   }
 
   populateLatestBudget() {
@@ -103,6 +103,16 @@ export class DashboardPage implements OnInit {
   }
 
   calculateCurrentExpense() {
-    this.currentExpenses = this.totalIncome - this.totalExpenditure
+    const total = parseInt(this.totalIncome) - parseInt(this.totalExpenditure);
+    this.currentExpenses = total.toFixed(2);
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.populateExpenditureTotal();
+      this.populateIncomeTotal();
+      this.calculateCurrentExpense();
+      event.target.complete();
+    }, 2000);
   }
 }
